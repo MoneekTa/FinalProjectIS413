@@ -6,34 +6,38 @@ import javafx.scene.shape.Shape;
 public class Player implements PlayerAesthetic {
     private PlayerAesthetic playerAesthetic;
     private Shape playerShape;
-    private ComboBox<String> skinComboBox;
+    private ComboBox<String> skinChoices;
     private Pane gamePane;
+    private int xSpeed = 10; // speed of the player
 
+//by default the player is a triangle
     public Player(Pane gamePane) {
         this.playerAesthetic = new TriangleSkin();
         this.playerShape = playerAesthetic.createPlayerShape();
         this.gamePane = gamePane;
-        initializeSkinComboBox(gamePane);
+        skinDropDown(gamePane);
         updatePlayerShape();
     }
 
-    private void initializeSkinComboBox(Pane gamePane) {
-        skinComboBox = new ComboBox<>();
-        skinComboBox.getItems().addAll("Triangle", "Circle", "Square");
-        skinComboBox.setValue("Skins");
-        skinComboBox.setOnAction(e -> {
-            String selectedSkin = skinComboBox.getValue();
+//drop down of the player skin options are displayed
+    private void skinDropDown(Pane gamePane) {
+        skinChoices = new ComboBox<>();
+        skinChoices.getItems().addAll("Triangle", "Circle", "Square");
+        skinChoices.setValue("Player Skins");
+        skinChoices.setOnAction(skinEvent -> {
+            String selectedSkin = skinChoices.getValue();
             setPlayerSkin(selectedSkin);
         });
 
-        skinComboBox.setLayoutX(650);
-        skinComboBox.setLayoutY(20);
+        skinChoices.setLayoutX(650);
+        skinChoices.setLayoutY(20);
 
-        gamePane.getChildren().add(skinComboBox);
+        gamePane.getChildren().add(skinChoices);
     }
 
-    private void setPlayerSkin(String skin) {
-        switch (skin) {
+// when the drop down options are clicked, one of the cases will show a shape from the shapes class
+    private void setPlayerSkin(String skins) {
+        switch (skins) {
             case "Triangle":
                 playerAesthetic = new TriangleSkin();
                 break;
@@ -47,7 +51,6 @@ public class Player implements PlayerAesthetic {
                 playerAesthetic = new TriangleSkin();
                 break;
         }
-
         playerShape = playerAesthetic.createPlayerShape();
         updatePlayerShape();
     }
@@ -62,6 +65,21 @@ public class Player implements PlayerAesthetic {
 
     public Shape getPlayerShape() {
         return playerShape;
+    }
+
+    public void moveLeft() {
+        double newX = playerShape.getLayoutX() - xSpeed;
+        if (newX >= 0) {
+            playerShape.setLayoutX(newX);
+        }
+    }
+
+    public void moveRight(double w) {
+        double newX = playerShape.getLayoutX() + xSpeed;
+        double shapeWidth = playerShape.getBoundsInLocal().getWidth();
+        if (newX <= w - shapeWidth) {
+            playerShape.setLayoutX(newX);
+        }
     }
 
     @Override

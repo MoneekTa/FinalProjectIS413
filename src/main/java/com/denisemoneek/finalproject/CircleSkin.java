@@ -6,7 +6,7 @@ import javafx.scene.shape.Shape;
 public class CircleSkin implements PlayerAesthetic{
     public Shape createPlayerShape() {
         Circle circle = new Circle(20);
-        circle.setFill(Color.RED);
+        circle.setFill(Color.MAROON);
         return circle;
     }
 }

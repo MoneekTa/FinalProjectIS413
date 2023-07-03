@@ -7,8 +7,7 @@ public class SquareSkin implements PlayerAesthetic{
 
     public Shape createPlayerShape() {
         Rectangle square = new Rectangle(40, 40);
-        square.setFill(Color.BLUE);
+        square.setFill(Color.OLIVE);
         return square;
     }
 }
-
