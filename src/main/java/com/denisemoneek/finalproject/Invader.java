@@ -5,16 +5,12 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.animation.TranslateTransition;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
 import javafx.util.Duration;
 
 import java.util.Random;
 public class Invader implements Levels {
     private static int width = 50;
     private static int height = 50;
-
     private Pane pane;
     private Rectangle invaderSquare;
     private Random random;
@@ -43,11 +39,20 @@ public class Invader implements Levels {
         moveInvader();
     }
 
-    private void moveInvader() {
-        double startX = moving ? 0 : pane.getWidth() - width;
-        double endX = moving ? pane.getWidth() - width : 0;
+    // Invader movement
+   public void moveInvader() {
+        double startX;
+        double endX;
 
-        // Create a new Timeline animation for each movement
+        if (moving) {
+            startX = 0;
+            endX = pane.getWidth() - width;
+        } else {
+            startX = pane.getWidth() - width;
+            endX = 0;
+        }
+
+        // Timeline animation for each movement
         TranslateTransition translateTransition =
                 new TranslateTransition(Duration.seconds(speed), invaderSquare);
 
@@ -55,7 +60,7 @@ public class Invader implements Levels {
         translateTransition.setFromX(startX);
         translateTransition.setToX(endX);
 
-        // when invader is finished moving, it will reverse
+        // When invader is finished moving, it will reverse
         translateTransition.setOnFinished(e -> {
             // Reverse the direction
             moving = !moving;
@@ -80,12 +85,12 @@ public class Invader implements Levels {
             case 2:
                 hearts = 2;
                 speed = 2;
-                invaderSquare.setFill(Color.YELLOW);
+                invaderSquare.setFill(Color.GOLD);
                 break;
             case 3:
                 hearts = 5;
                 speed = 1;
-                invaderSquare.setFill(Color.RED);
+                invaderSquare.setFill(Color.MAROON);
                 break;
             default:
                 hearts = 1;
@@ -93,8 +98,22 @@ public class Invader implements Levels {
                 invaderSquare.setFill(Color.DARKCYAN);
                 break;
         }
-// display hearts on screen
-//        public void heart();
+    }
 
+    public void setSpeed(int level) {
+        switch (level) {
+            case 1:
+                speed = 3;
+                break;
+            case 2:
+                speed = 2;
+                break;
+            case 3:
+                speed = 1;
+                break;
+            default:
+                speed = 3;
+                break;
+        }
     }
 }
