@@ -1,6 +1,8 @@
 package com.denisemoneek.finalproject;
 
 import javafx.animation.TranslateTransition;
+import javafx.event.EventType;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -13,9 +15,9 @@ public class Bullet {
     private Circle bullet;
     private Random random;
     private boolean moving;
-    private int speed;
+    private int speed = 1;
     private static int diamater = 20;
-
+    public static final EventType<MouseEvent> MOUSE_CLICKED = null;
 
     public Bullet(Pane gamePane){
         this.pane = gamePane;
@@ -26,24 +28,28 @@ public class Bullet {
         bullet.setFill(Color.BLACK);
 
         gamePane.getChildren().add(bullet);
-        moveBullet();
+        pane.setOnMouseClicked(e-> {
+            moveBullet((int)pane.getHeight());
+        });
     }
 
     public void moveBullet(int position){
-        double startX;
-        double endX;
+        double startY = position;
+        double endY;
         if(moving){
-            startX = 0;
-            endX = pane.getWidth() - diamater;
+            startY = pane.getHeight() - diamater;
+            endY = 0;
         }else{
-            startX = pane.getWidth() - diamater;
-            endX = 0;
+            startY = 0;
+            endY = pane.getHeight() - diamater;
+
         }
         TranslateTransition translateTransition =
                 new TranslateTransition(Duration.seconds(speed),bullet);
-        translateTransition.setFromX(startX);
-        translateTransition.setToX(endX);
+        translateTransition.setFromY(startY);
+        translateTransition.setToY(endY);
+        translateTransition.play();
 
-        });
+        };
     }
-}
+
