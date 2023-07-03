@@ -10,7 +10,7 @@ public class Game extends Application {
     public void start(Stage primaryStage) {
         Pane gamePane = new Pane();
 
-    //Display InvaderShape
+    //Display Invader shape
         Invader invader = new Invader(gamePane);
 
         Scene scene = new Scene(gamePane, 800, 600);

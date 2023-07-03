@@ -9,7 +9,6 @@ import javafx.animation.Timeline;
 import javafx.util.Duration;
 
 import java.util.Random;
-
 public class Invader {
     private static int width = 50;
     private static int height = 50;
@@ -18,12 +17,12 @@ public class Invader {
     private Pane pane;
     private Rectangle invaderSquare;
     private Random random;
-    private boolean movingRight;
+    private boolean moving;
 
     public Invader(Pane gamePane) {
         this.pane = gamePane;
         this.random = new Random();
-        this.movingRight = random.nextBoolean();
+        this.moving = random.nextBoolean();
 
         // Create invader square
         invaderSquare = new Rectangle(width, height);
@@ -37,8 +36,11 @@ public class Invader {
     }
 
     private void moveInvader() {
-        double startX = movingRight ? 0 : pane.getWidth() - width;
-        double endX = movingRight ? pane.getWidth() - width : 0;
+        double startX = moving ? 0 : pane.getWidth() - width;
+        double endX = moving ? pane.getWidth() - width : 0;
+
+        // Generate a random pause duration between each movement
+        double pauseSeconds = random.nextDouble() * 1 + 0.5; // Random pause between 0.5 and 1.5 seconds
 
         // Create a Timeline animation
         Timeline timeline = new Timeline();
@@ -55,9 +57,24 @@ public class Invader {
         timeline.getKeyFrames().addAll(startFrame, endFrame);
 
         // Set up the callback when the movement is finished
-        timeline.setOnFinished(e -> moveInvader());
+        timeline.setOnFinished(e -> {
+            // Pause between movements
+            pause(pauseSeconds);
+            // Reverse the direction
+            moving = !moving;
+            // Restart the movement animation
+            moveInvader();
+        });
 
         // Start the movement animation
         timeline.play();
+    }
+
+    private void pause(double seconds) {
+        try {
+            Thread.sleep((long) (seconds * 500));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
