@@ -16,12 +16,9 @@ public class Game extends Application {
     @Override
     public void start(Stage primaryStage) throws FileNotFoundException {
 
-        GridPane pane = new GridPane();
-        pane.setAlignment(Pos.CENTER);
-        pane.setHgap(5);
-        pane.setVgap(5);
+        Pane gamePane = new Pane();
 
-        Scene scene = new Scene(pane,400,400);
+        Scene scene = new Scene(gamePane,800,600);
         scene.setFill(layout.Color());
         //int status = (int) (Math.random()*3);
         //if (status == 1) {
