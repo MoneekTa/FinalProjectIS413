@@ -10,7 +10,6 @@ import java.io.FileNotFoundException;
 import java.util.Random;
 
 public class Layout implements LayoutChange{
-
     Image background;
     String currentDir = System.getProperty("user.dir");
     Random rand = new Random();

@@ -20,15 +20,15 @@ public class Game extends Application {
 
         Scene scene = new Scene(gamePane,800,600);
         scene.setFill(layout.Color());
-        //int status = (int) (Math.random()*3);
-        //if (status == 1) {
-        //    scene.setFill(layout.Color());
-        //} else {
-            //Image backgroundImage = layout.Image().getImage();
-            //pane.setStyle("-fx-background-image: url('" + backgroundImage.getUrl() + "'); " +
-            //        "-fx-background-size: cover;");
-
-        //};
+//        int status = (int) (Math.random()*3);
+//        if (status == 1) {
+//            scene.setFill(layout.Color());
+//        }else {
+//            Image backgroundImage = layout.Image().getImage();
+//            gamePane.setStyle("-fx-background-image: url('" + backgroundImage.getUrl() + "'); " +
+//                    "-fx-background-size: cover;");
+//
+//        };
         primaryStage.setTitle("LayoutTest");
         primaryStage.setScene(scene);
         primaryStage.show();
