@@ -1,8 +1,11 @@
 package com.denisemoneek.finalproject;
 
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.util.Duration;
 
 import java.util.Random;
@@ -12,52 +15,49 @@ public class Invader {
     private static int height = 50;
     private static int speed = 2;
 
-    private Pane gamePane;
-    private ImageView invaderView;
+    private Pane pane;
+    private Rectangle invaderSquare;
     private Random random;
     private boolean movingRight;
 
     public Invader(Pane gamePane) {
-        this.gamePane = gamePane;
+        this.pane = gamePane;
         this.random = new Random();
         this.movingRight = random.nextBoolean();
 
-        // Load invader image
-        Image invaderImage = new Image("invader.png");
-        invaderView = new ImageView(invaderImage);
-        invaderView.setFitWidth(width);
-        invaderView.setFitHeight(height);
+        // Create invader square
+        invaderSquare = new Rectangle(width, height);
+        invaderSquare.setFill(Color.DARKCYAN);
 
         // Add invader to the game pane
-        gamePane.getChildren().add(invaderView);
+        gamePane.getChildren().add(invaderSquare);
 
         // Start moving the invader
         moveInvader();
     }
 
     private void moveInvader() {
-        javafx.animation.TranslateTransition translateTransition = new javafx.animation.TranslateTransition(Duration.millis(1000), invaderView);
+        double startX = movingRight ? 0 : pane.getWidth() - width;
+        double endX = movingRight ? pane.getWidth() - width : 0;
 
-        // Set the movement direction (left or right)
-        int direction = movingRight ? 1 : -1;
+        // Create a Timeline animation
+        Timeline timeline = new Timeline();
 
-        // Calculate the new X position
-        double newX = invaderView.getTranslateX() + (direction * speed);
+        // Create KeyValues for smooth animation
+        KeyValue startKeyValue = new KeyValue(invaderSquare.translateXProperty(), startX);
+        KeyValue endKeyValue = new KeyValue(invaderSquare.translateXProperty(), endX);
 
-        // Check if the invader reaches the game pane's boundaries
-        if (newX <= 0 || newX >= gamePane.getWidth() - width) {
-            // Change the movement direction
-            movingRight = !movingRight;
-            direction = movingRight ? 1 : -1;
-        }
+        // Create KeyFrames for the animation
+        KeyFrame startFrame = new KeyFrame(Duration.ZERO, startKeyValue);
+        KeyFrame endFrame = new KeyFrame(Duration.seconds(2), endKeyValue);
 
-        // Update the invader's position
-        translateTransition.setToX(newX);
+        // Add KeyFrames to the timeline
+        timeline.getKeyFrames().addAll(startFrame, endFrame);
 
         // Set up the callback when the movement is finished
-        translateTransition.setOnFinished(event -> moveInvader());
+        timeline.setOnFinished(e -> moveInvader());
 
         // Start the movement animation
-        translateTransition.play();
+        timeline.play();
     }
 }

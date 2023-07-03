@@ -10,6 +10,9 @@ public class Game extends Application {
     public void start(Stage primaryStage) {
         Pane gamePane = new Pane();
 
+    //Display InvaderShape
+        Invader invader = new Invader(gamePane);
+
         Scene scene = new Scene(gamePane, 800, 600);
         primaryStage.setScene(scene);
         primaryStage.setTitle("JFX Invaders");
@@ -17,11 +20,6 @@ public class Game extends Application {
     }
 
     public static void main(String[] args) {
-        launch(args);
+        launch();
     }
 }
-
-
-
-
-
