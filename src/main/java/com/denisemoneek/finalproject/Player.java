@@ -20,7 +20,7 @@ public class Player implements PlayerAesthetic {
     private void initializeSkinComboBox(Pane gamePane) {
         skinComboBox = new ComboBox<>();
         skinComboBox.getItems().addAll("Triangle", "Circle", "Square");
-        skinComboBox.setValue("Triangle");
+        skinComboBox.setValue("Skins");
         skinComboBox.setOnAction(e -> {
             String selectedSkin = skinComboBox.getValue();
             setPlayerSkin(selectedSkin);
