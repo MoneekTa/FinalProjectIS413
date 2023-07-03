@@ -4,6 +4,8 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
@@ -19,6 +21,7 @@ public class Game extends Application {
 
         Button PauseButton = new Button("Start Game");
         Pane gamePane = new Pane(PauseButton);
+
         timer.start();
         PauseButton.setOnAction(event -> {
             //uses this print code to debug
@@ -29,7 +32,8 @@ public class Game extends Application {
                 PauseButton.setText("Game is Running");
             } else {
                 elaspedtime = elaspedtime + timer.stop();
-                PauseButton.setText("Time: " + elaspedtime + " seconds");
+                PauseButton.setText("Game is Paused " +
+                        "\n" + "Time: " + elaspedtime/1000 + " seconds");
             }
             //resets timerRun
             timerRun = !timerRun;
