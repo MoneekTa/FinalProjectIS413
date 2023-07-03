@@ -1,11 +1,7 @@
 package com.denisemoneek.finalproject;
 
 public interface Levels {
-
-    void InvaderShape();
-
-    void Hearts();
-
-    void Speed();
-
+    void setLevel(int level);
+// display hearts on screen
+//    void heart()
 }
