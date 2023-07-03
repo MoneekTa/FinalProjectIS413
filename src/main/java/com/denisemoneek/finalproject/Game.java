@@ -2,9 +2,9 @@ package com.denisemoneek.finalproject;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.scene.input.KeyCode;
 
 public class Game extends Application {
     private Player player;
@@ -23,8 +23,8 @@ public class Game extends Application {
         primaryStage.show();
     }
 
-    private void handleKeyPress(KeyCode keyCode) {
-        switch (keyCode) {
+    private void handleKeyPress(KeyCode key) {
+        switch (key) {
             case LEFT:
                 player.moveLeft();
                 break;

@@ -35,7 +35,8 @@ public class Player implements PlayerAesthetic {
         gamePane.getChildren().add(skinChoices);
     }
 
-// when the drop down options are clicked, one of the cases will show a shape from the shapes class
+// when the drop down options are clicked, one of the cases
+    // will show a shape from one of the shapes class
     private void setPlayerSkin(String skins) {
         switch (skins) {
             case "Triangle":
@@ -51,29 +52,28 @@ public class Player implements PlayerAesthetic {
                 playerAesthetic = new TriangleSkin();
                 break;
         }
+// the shape of the player should update after the option has been clicked
         playerShape = playerAesthetic.createPlayerShape();
         updatePlayerShape();
     }
 
     private void updatePlayerShape() {
+    //player placed in the bottom middle of the screen
         playerShape.setLayoutX(380);
         playerShape.setLayoutY(500);
-
+    // remove a player skin that is being used when another skin is selected
         gamePane.getChildren().removeIf(node -> node instanceof Shape);
+    // displays the new skin
         gamePane.getChildren().add(playerShape);
     }
-
-    public Shape getPlayerShape() {
-        return playerShape;
-    }
-
+// allow player to move left
     public void moveLeft() {
         double newX = playerShape.getLayoutX() - xSpeed;
         if (newX >= 0) {
             playerShape.setLayoutX(newX);
         }
     }
-
+// allow player to move right
     public void moveRight(double w) {
         double newX = playerShape.getLayoutX() + xSpeed;
         double shapeWidth = playerShape.getBoundsInLocal().getWidth();
@@ -81,7 +81,6 @@ public class Player implements PlayerAesthetic {
             playerShape.setLayoutX(newX);
         }
     }
-
     @Override
     public Shape createPlayerShape() {
         return playerAesthetic.createPlayerShape();
