@@ -17,6 +17,7 @@ public class Bullet {
     private int speed = 1;
     private static final int diamater = 5;
 
+
     private double xPosition = 0;
     private double yPosition = 0;
 
@@ -35,14 +36,16 @@ public class Bullet {
     }
 
     public void moveBullet(double position) {
-        double startY = position;
+        double startY = 500;
+        System.out.println("startY: " + startY);
         double endY;
         if (moving) {
-            startY = pane.getHeight() - diamater;
-            endY = 0;
-        } else {
             startY = 0;
-            endY = pane.getHeight() - diamater;
+            endY = 500;
+
+        } else {
+            startY = 500;
+            endY = 0;
 
         }
         TranslateTransition translateTransition =
@@ -50,21 +53,21 @@ public class Bullet {
         translateTransition.setFromY(startY);
         translateTransition.setToY(endY);
         translateTransition.play();
-        translateTransition.setOnFinished(e -> {
-            // Restart the movement animation
-            pane.setOnMouseClicked(f -> {
-                moveBullet(pane.getHeight());
-            });
-
-        });
     }
 
-    public void setPosition(double xPosition, double yPosition) {
-        xPosition = xPosition;
+
+    public void setYposition(double yPosition) {
         yPosition = yPosition;
-        bullet.setTranslateX(xPosition + (diamater / 2));
         bullet.setTranslateY(yPosition + (diamater / 2));
+
+        System.out.println("yPosition: " + yPosition);
     }
+    public void setXposition(double xPosition){
+        xPosition = xPosition;
+        bullet.setTranslateX(xPosition + (diamater / 2)+19);
+        System.out.println("xPosition: " + xPosition);
+    }
+
 
 }
 
