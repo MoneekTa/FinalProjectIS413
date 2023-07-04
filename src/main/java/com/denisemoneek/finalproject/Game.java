@@ -30,8 +30,8 @@ public class Game extends Application {
             scene.setFill(layout.Color());
             player = new Player(gamePane);
             bullet = new Bullet(gamePane);
-            bullet.setXposition(player.getXPosition());
-            bullet.setYposition(player.getYPosition());
+            bullet.setXposition(player.getXposition());
+            bullet.setYposition(player.getYposition());
             //if the timerRun is false, meaning the timer is not running
             if(!timerRun){
                 timer.start();
@@ -64,7 +64,7 @@ public class Game extends Application {
                 break;
 
         }
-        bullet.setXposition(player.getXPosition());
+        bullet.setXposition(player.getXposition());
     }
 
     public static void main(String[] args) {

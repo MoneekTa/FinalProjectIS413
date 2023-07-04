@@ -91,12 +91,12 @@ public class Player implements PlayerAesthetic {
         return playerAesthetic.createPlayerShape();
     }
 
-    public double getXPosition(){
+    public double getXposition(){
         double xPosition;
         xPosition = playerShape.getLayoutX();
         return xPosition;
     };
-    public double getYPosition(){
+    public double getYposition(){
         double yPosition;
         yPosition = playerShape.getLayoutY();
         return yPosition;
