@@ -8,13 +8,17 @@ public class Player implements PlayerAesthetic {
     private Shape playerShape;
     private ComboBox<String> skinChoices;
     private Pane gamePane;
-    private int xSpeed = 10; // speed of the player
+    // speed of the player
+    private int xSpeed = 10;
+    private Bullet bullet;
+
 
 //by default the player is a triangle
     public Player(Pane gamePane) {
         this.playerAesthetic = new TriangleSkin();
         this.playerShape = playerAesthetic.createPlayerShape();
         this.gamePane = gamePane;
+        this.bullet = new Bullet(gamePane);
         skinDropDown(gamePane);
         updatePlayerShape();
     }
@@ -58,14 +62,15 @@ public class Player implements PlayerAesthetic {
     }
 
     private void updatePlayerShape() {
-    //player placed in the bottom middle of the screen
+        //player placed in the bottom middle of the screen
         playerShape.setLayoutX(380);
         playerShape.setLayoutY(500);
-    // remove a player skin that is being used when another skin is selected
+        // remove a player skin that is being used when another skin is selected
         gamePane.getChildren().removeIf(node -> node instanceof Shape);
-    // displays the new skin
+        // displays the new skin
         gamePane.getChildren().add(playerShape);
     }
+
 // allow player to move left
     public void moveLeft() {
         double newX = playerShape.getLayoutX() - xSpeed;
@@ -85,4 +90,15 @@ public class Player implements PlayerAesthetic {
     public Shape createPlayerShape() {
         return playerAesthetic.createPlayerShape();
     }
+
+    public double getXPosition(){
+        double xPosition;
+        xPosition = playerShape.getLayoutX();
+        return xPosition;
+    };
+    public double getYPosition(){
+        double yPosition;
+        yPosition = playerShape.getLayoutY();
+        return yPosition;
+    };
 }

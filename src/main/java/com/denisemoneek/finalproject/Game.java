@@ -9,12 +9,15 @@ import javafx.scene.input.KeyCode;
 public class Game extends Application {
     private Player player;
     private Pane gamePane;
+    private Bullet bullet;
 
     @Override
     public void start(Stage primaryStage) {
         gamePane = new Pane();
 
         player = new Player(gamePane);
+        bullet = new Bullet(gamePane);
+        bullet.setPosition(player.getXPosition(),player.getYPosition());
 
         Scene scene = new Scene(gamePane, 800, 600);
         scene.setOnKeyPressed(event -> handleKeyPress(event.getCode()));
@@ -34,7 +37,9 @@ public class Game extends Application {
             default:
                 // Ignore other keys
                 break;
+
         }
+        bullet.setPosition(player.getXPosition(),player.getYPosition());
     }
 
     public static void main(String[] args) {
