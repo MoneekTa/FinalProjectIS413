@@ -15,18 +15,19 @@ public class Bullet {
     private Random random;
     private boolean moving;
     private int speed = 1;
-    private static final int diamater = 5;
-
+    private static final int diameter = 5;
 
     private double xPosition = 0;
     private double yPosition = 0;
+
+    private boolean gamePaused = false; // Added gamePaused variable
 
     public Bullet(Pane gamePane) {
         this.pane = gamePane;
         this.random = new Random();
         this.moving = random.nextBoolean();
 
-        bullet = new Circle(diamater);
+        bullet = new Circle(diameter);
         bullet.setFill(Color.BLACK);
 
         gamePane.getChildren().add(bullet);
@@ -36,38 +37,34 @@ public class Bullet {
     }
 
     public void moveBullet(double position) {
-        double startY = 500;
-        System.out.println("startY: " + startY);
-        double endY;
-        if (moving) {
-            startY = 0;
-            endY = 500;
-
-        } else {
-            startY = 500;
-            endY = 0;
-
+        if (!gamePaused) {
+            double startY = 500;
+            System.out.println("startY: " + startY);
+            double endY;
+            if (moving) {
+                startY = 0;
+                endY = 500;
+            } else {
+                startY = 500;
+                endY = 0;
+            }
+            TranslateTransition translateTransition =
+                    new TranslateTransition(Duration.seconds(speed), bullet);
+            translateTransition.setFromY(startY);
+            translateTransition.setToY(endY);
+            translateTransition.play();
         }
-        TranslateTransition translateTransition =
-                new TranslateTransition(Duration.seconds(speed), bullet);
-        translateTransition.setFromY(startY);
-        translateTransition.setToY(endY);
-        translateTransition.play();
     }
 
-
-    public void setYposition(double yPosition) {
-        yPosition = yPosition;
-        bullet.setTranslateY(yPosition + (diamater / 2));
-
+    public void setYPosition(double yPosition) {
+        this.yPosition = yPosition;
+        bullet.setTranslateY(yPosition + (diameter / 2));
         System.out.println("yPosition: " + yPosition);
     }
-    public void setXposition(double xPosition){
-        xPosition = xPosition;
-        bullet.setTranslateX(xPosition + (diamater / 2)+19);
+
+    public void setXPosition(double xPosition) {
+        this.xPosition = xPosition;
+        bullet.setTranslateX(xPosition + (diameter / 2) + 19);
         System.out.println("xPosition: " + xPosition);
     }
-
-
 }
-
