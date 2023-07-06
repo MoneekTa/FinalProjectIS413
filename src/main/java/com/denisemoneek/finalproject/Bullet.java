@@ -32,29 +32,35 @@ public class Bullet {
 
         gamePane.getChildren().add(bullet);
         pane.setOnMouseClicked(e -> {
-            moveBullet(pane.getHeight());
+            moveBullet(false);
         });
     }
 
-    public void moveBullet(double position) {
+    public void moveBullet(boolean gamePaused) {
+        gamePaused = gamePaused;
+        TranslateTransition translateTransition =
+            new TranslateTransition(Duration.seconds(speed), bullet);
         if (!gamePaused) {
             double startY = 500;
             System.out.println("startY: " + startY);
-            double endY;
-            if (moving) {
-                startY = 0;
-                endY = 500;
-            } else {
-                startY = 500;
-                endY = 0;
-            }
-            TranslateTransition translateTransition =
-                    new TranslateTransition(Duration.seconds(speed), bullet);
+            double endY= 0;
+
+//            if (moving) {
+//                startY = 0;
+//                endY = 500;
+//            } else {
+//                startY = 500;
+//                endY = 0;
+//            }
+
             translateTransition.setFromY(startY);
             translateTransition.setToY(endY);
             translateTransition.play();
         }
-    }
+        else {
+                translateTransition.stop();
+            }
+        }
 
     public void setYPosition(double yPosition) {
         this.yPosition = yPosition;

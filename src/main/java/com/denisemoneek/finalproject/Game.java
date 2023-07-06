@@ -37,10 +37,12 @@ public class Game extends Application {
             if (!timerRun) {
                 timer.start();
                 pauseButton.setText("Game is Running");
+
             } else {
                 elapsedTime += timer.stop();
                 pauseButton.setText("Game is Paused " +
                         "\n" + "Time: " + elapsedTime / 1000 + " seconds");
+                bullet.moveBullet(true);
             }
             // Resets timerRun
             timerRun = !timerRun;
