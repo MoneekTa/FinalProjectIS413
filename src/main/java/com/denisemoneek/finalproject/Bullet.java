@@ -35,10 +35,8 @@ public class Bullet {
         bullet.setFill(Color.BLACK);
 
         gamePane.getChildren().add(bullet);
-        pane.setOnMouseClicked(e -> {
-            moveBullet();
-        });
-        // startRecording();
+
+        startRecording();
     }
 
     public void moveBullet() {
@@ -80,17 +78,17 @@ public class Bullet {
     public long getYPosition() {
         return (long) bullet.getLayoutY();
     }
+
+    private void startRecording() {
+        Timeline recordingTimeline = new Timeline(new KeyFrame(Duration.millis(1), event -> {
+            if (!gamePaused) {
+                recordedPosition = (long) (bullet.getTranslateY() + bullet.getCenterY());
+                if (recordedPosition == 0) {
+
+                }
+            }
+        }));
+        recordingTimeline.setCycleCount(Timeline.INDEFINITE);
+        recordingTimeline.play();
+    }
 }
-//    private void startRecording() {
-//        Timeline recordingTimeline = new Timeline(new KeyFrame(Duration.millis(1), event -> {
-//            if (!gamePaused) {
-//                recordedPosition = (long) (bullet.getTranslateY() + bullet.getCenterY());
-//                if (recordedPosition == 0) {
-//
-//                }
-//            }
-//        }));
-//        recordingTimeline.setCycleCount(Timeline.INDEFINITE);
-//        recordingTimeline.play();
-//    }
-//}

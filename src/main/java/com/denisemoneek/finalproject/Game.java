@@ -28,6 +28,7 @@ public class Game extends Application {
         Scene scene = new Scene(gamePane, 800, 600);
 
         scene.setOnKeyPressed(event -> handleKeyPress(event.getCode()));
+
         timer.start();
         pauseButton.setOnAction(event -> {
             // Use this print code to debug
@@ -74,6 +75,9 @@ public class Game extends Application {
                     break;
                 case D:
                     player.moveRight(800);
+                    break;
+                case M:
+                    bullet.moveBullet();
                     break;
                 default:
                     // Ignore other keys
