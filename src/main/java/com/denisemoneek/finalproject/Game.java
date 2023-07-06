@@ -6,6 +6,8 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.BorderPane;
+import javafx.geometry.Pos;
 
 public class Game extends Application {
     private Player player;
@@ -16,6 +18,8 @@ public class Game extends Application {
     long elapsedTime;
     Timer timer = new Timer();
     boolean timerRun = false;
+    private Invader invader;
+    private int currentLevel = 1;
 
     @Override
     public void start(Stage primaryStage) {
@@ -30,9 +34,18 @@ public class Game extends Application {
             System.out.println("Game Started");
             scene.setFill(layout.Color());
             player = new Player(gamePane);
+            invader = new Invader(gamePane);
             bullet = new Bullet(gamePane);
+            Button nextLevelBtn = new Button("Next Level");
+            nextLevelBtn.setOnAction(e -> goToNextLevel());
             bullet.setXPosition(player.getXposition());
             bullet.setYPosition(player.getYposition());
+//            BorderPane root = new BorderPane();
+//            root.setCenter(gamePane);
+//            root.setBottom(nextLevelBtn);
+//            BorderPane.setAlignment(nextLevelBtn, Pos.CENTER);
+            gamePane.getChildren().add(nextLevelBtn);
+            nextLevelBtn.setLayoutX(725);
             // If the timerRun is false, meaning the timer is not running
             if (!timerRun) {
                 timer.start();
@@ -45,6 +58,7 @@ public class Game extends Application {
             // Resets timerRun
             timerRun = !timerRun;
         });
+        // btn layout
 
         primaryStage.setScene(scene);
         primaryStage.setTitle("JFX Invaders");
@@ -65,8 +79,15 @@ public class Game extends Application {
                     // Ignore other keys
                     break;
             }
-            bullet.setXPosition(player.getXposition());
+            if(bullet.getYPosition() == 0) {
+                bullet.setXPosition(player.getXposition());
+            }
         }
+    }
+    private void goToNextLevel() {
+        currentLevel++;
+        invader.setLevel(currentLevel);
+        invader.setSpeed(currentLevel); // Update speed based on level
     }
 
     public static void main(String[] args) {
