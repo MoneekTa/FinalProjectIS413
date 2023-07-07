@@ -117,8 +117,11 @@ public class Invader implements Levels {
         }
     }
 
-    public void getYposition(){
-
+    public long getYposition() {
+        return (long) invaderSquare.getLayoutY();
+    }
+    public long getXposition(){
+        return (long) invaderSquare.getLayoutX();
     }
 
 }

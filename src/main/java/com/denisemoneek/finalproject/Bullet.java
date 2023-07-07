@@ -32,7 +32,7 @@ public class Bullet {
 
         gamePane.getChildren().add(bullet);
 
-        recording();
+        recordingY();
     }
 
     public void moveBullet() {
@@ -77,8 +77,14 @@ public class Bullet {
         return (long) bullet.getLayoutY();
     }
 
-    public long recording() {
+    public long recordingY() {
         recordedPosition = (long) (bullet.getTranslateY() + bullet.getCenterY());
+        System.out.println("Recorded Position: " + recordedPosition);
+        return recordedPosition;
+
+    }
+    public long recordingX() {
+        recordedPosition = (long) (bullet.getTranslateX() + bullet.getCenterX());
         System.out.println("Recorded Position: " + recordedPosition);
         return recordedPosition;
 

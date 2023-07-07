@@ -18,6 +18,7 @@ public class Game extends Application {
     Button pauseButton = new Button("Start Game");
     long elapsedTime;
     long bulletposition;
+    long invaderposition;
     Timer timer = new Timer();
     boolean timerRun = false;
     private Invader invader;
@@ -55,11 +56,13 @@ public class Game extends Application {
                 timer.start();
                 pauseButton.setText("Game is Running");
                 Timeline recordingTimeline = new Timeline(new KeyFrame(Duration.millis(1), event2 -> {
-                    bulletposition = bullet.recording();
+                    bulletposition = bullet.recordingY();
+                    invaderposition =
                     if(bulletposition == 0){
                         bullet.setXposition(player.getXposition());
                         bullet.setYPosition(player.getYposition());
                     }
+                    if(invaderposition )
 
                 }));
                 recordingTimeline.setCycleCount(Timeline.INDEFINITE);
