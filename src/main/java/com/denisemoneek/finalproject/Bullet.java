@@ -1,15 +1,11 @@
 package com.denisemoneek.finalproject;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
-import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 
-import java.util.List;
 import java.util.Random;
 
 public class Bullet {
@@ -36,7 +32,7 @@ public class Bullet {
 
         gamePane.getChildren().add(bullet);
 
-        startRecording();
+        recording();
     }
 
     public void moveBullet() {
@@ -45,9 +41,10 @@ public class Bullet {
         double startY = 500;
         System.out.println("startY: " + startY);
         double endY = 0;
-//            if (moving)
-//                startY = 0;
-//                endY = 500;
+
+//            if (moving){
+//                startY = 550;
+//                endY = 0;
 //            } else {
 //                startY = 500;
 //                endY = 0;
@@ -56,6 +53,7 @@ public class Bullet {
         translateTransition.setFromY(startY);
         //System.out.println("Bullet yPosition: " + bullet.getLayoutY());
         translateTransition.setToY(endY);
+        translateTransition.setFromY(startY);
         translateTransition.play();
     }
 
@@ -66,7 +64,7 @@ public class Bullet {
         //System.out.println("yPosition: " + yPosition);
     }
 
-    public void setXPosition(double xPosition) {
+    public void setXposition(double xPosition) {
         //System.out.println("Bullet yPosition: " + bullet.getLayoutY());
         if (bullet.getLayoutY() == 0) {
             this.xPosition = xPosition;
@@ -75,20 +73,14 @@ public class Bullet {
         }
     }
 
-    public long getYPosition() {
+    public long getYposition() {
         return (long) bullet.getLayoutY();
     }
 
-    private void startRecording() {
-        Timeline recordingTimeline = new Timeline(new KeyFrame(Duration.millis(1), event -> {
-            if (!gamePaused) {
-                recordedPosition = (long) (bullet.getTranslateY() + bullet.getCenterY());
-                if (recordedPosition == 0) {
+    public long recording() {
+        recordedPosition = (long) (bullet.getTranslateY() + bullet.getCenterY());
+        System.out.println("Recorded Position: " + recordedPosition);
+        return recordedPosition;
 
-                }
-            }
-        }));
-        recordingTimeline.setCycleCount(Timeline.INDEFINITE);
-        recordingTimeline.play();
     }
 }

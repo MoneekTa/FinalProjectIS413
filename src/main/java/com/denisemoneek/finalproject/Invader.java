@@ -116,4 +116,9 @@ public class Invader implements Levels {
                 break;
         }
     }
+
+    public void getYposition(){
+
+    }
+
 }

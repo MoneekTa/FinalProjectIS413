@@ -1,13 +1,14 @@
 package com.denisemoneek.finalproject;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.BorderPane;
-import javafx.geometry.Pos;
+import javafx.util.Duration;
 
 public class Game extends Application {
     private Player player;
@@ -16,10 +17,12 @@ public class Game extends Application {
     Layout layout = new Layout();
     Button pauseButton = new Button("Start Game");
     long elapsedTime;
+    long bulletposition;
     Timer timer = new Timer();
     boolean timerRun = false;
     private Invader invader;
     private int currentLevel = 1;
+
 
     @Override
     public void start(Stage primaryStage) {
@@ -39,7 +42,7 @@ public class Game extends Application {
             bullet = new Bullet(gamePane);
             Button nextLevelBtn = new Button("Next Level");
             nextLevelBtn.setOnAction(e -> goToNextLevel());
-            bullet.setXPosition(player.getXposition());
+            bullet.setXposition(player.getXposition());
             bullet.setYPosition(player.getYposition());
 //            BorderPane root = new BorderPane();
 //            root.setCenter(gamePane);
@@ -51,6 +54,16 @@ public class Game extends Application {
             if (!timerRun) {
                 timer.start();
                 pauseButton.setText("Game is Running");
+                Timeline recordingTimeline = new Timeline(new KeyFrame(Duration.millis(1), event2 -> {
+                    bulletposition = bullet.recording();
+                    if(bulletposition == 0){
+                        bullet.setXposition(player.getXposition());
+                        bullet.setYPosition(player.getYposition());
+                    }
+
+                }));
+                recordingTimeline.setCycleCount(Timeline.INDEFINITE);
+                recordingTimeline.play();
             } else {
                 elapsedTime += timer.stop();
                 pauseButton.setText("Game is Paused " +
@@ -59,7 +72,7 @@ public class Game extends Application {
             // Resets timerRun
             timerRun = !timerRun;
         });
-        // btn layout
+
 
         primaryStage.setScene(scene);
         primaryStage.setTitle("JFX Invaders");
@@ -72,9 +85,15 @@ public class Game extends Application {
             switch (key) {
                 case A:
                     player.moveLeft();
+                    if(bulletposition == 502) {
+                        bullet.setXposition(player.getXposition());
+                    }
                     break;
                 case D:
                     player.moveRight(800);
+                    if(bulletposition == 502) {
+                        bullet.setXposition(player.getXposition());
+                    }
                     break;
                 case M:
                     bullet.moveBullet();
@@ -82,9 +101,7 @@ public class Game extends Application {
                 default:
                     // Ignore other keys
                     break;
-            }
-            if(bullet.getYPosition() == 0) {
-                bullet.setXPosition(player.getXposition());
+
             }
         }
     }
