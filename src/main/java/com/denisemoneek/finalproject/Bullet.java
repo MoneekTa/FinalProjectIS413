@@ -39,7 +39,7 @@ public class Bullet {
         TranslateTransition translateTransition =
                 new TranslateTransition(Duration.seconds(speed), bullet);
         double startY = 500;
-        System.out.println("startY: " + startY);
+        //System.out.println("startY: " + startY);
         double endY = 50;
 
 //            if (moving){
