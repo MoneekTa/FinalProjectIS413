@@ -37,7 +37,9 @@ public class Game extends Application {
         gamePane = new Pane(pauseButton);
 
         Scene scene = new Scene(gamePane, 800, 600);
-
+        BackgroundFill backgroundFill = new BackgroundFill(layout.Color(), CornerRadii.EMPTY, Insets.EMPTY);
+        Background background = new Background(backgroundFill);
+        gamePane.setBackground(background);
         scene.setOnKeyPressed(event -> handleKeyPress(event.getCode()));
 
         timer.start();
