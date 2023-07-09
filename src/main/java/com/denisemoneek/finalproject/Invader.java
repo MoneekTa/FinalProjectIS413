@@ -109,7 +109,7 @@ public class Invader implements Levels {
                 speed = 3;
                 break;
             default:
-                speed = 3;
+                speed = 4;
                 break;
         }
     }
