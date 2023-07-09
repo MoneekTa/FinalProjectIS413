@@ -69,7 +69,7 @@ public class Bullet {
         if (bullet.getLayoutY() == 0) {
             this.xPosition = xPosition;
             bullet.setTranslateX(xPosition + (diameter / 2) + 19);
-            System.out.println("xPosition: " + xPosition);
+            //System.out.println("xPosition: " + xPosition);
         }
     }
 
@@ -79,13 +79,13 @@ public class Bullet {
 
     public long recordingY() {
         recordedPosition = (long) (bullet.getTranslateY() + bullet.getCenterY());
-        System.out.println("Recorded Position: " + recordedPosition);
+        //System.out.println("Recorded Position: " + recordedPosition);
         return recordedPosition;
 
     }
     public long recordingX() {
         recordedPosition = (long) (bullet.getTranslateX() + bullet.getCenterX());
-        System.out.println("Recorded Position: " + recordedPosition);
+        //System.out.println("Recorded Position: " + recordedPosition);
         return recordedPosition;
 
     }

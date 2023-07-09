@@ -15,9 +15,9 @@ public class Invader implements Levels {
     private Rectangle invaderSquare;
     private Random random;
     private boolean moving;
-    private int level;
-    private int speed;
-    private int hearts;
+    int level;
+    int speed;
+    int hearts;
 
     public Invader(Pane gamePane) {
         this.pane = gamePane;
@@ -117,11 +117,15 @@ public class Invader implements Levels {
         }
     }
 
-    public long getYposition() {
-        return (long) invaderSquare.getLayoutY();
-    }
+    public long getYposition() {return (long) invaderSquare.getTranslateY(); }
     public long getXposition(){
-        return (long) invaderSquare.getLayoutX();
+        return (long) invaderSquare.getTranslateX();
     }
-
+    public long getwidth(){return (long) width; }
+    public long getheight(){return (long) height; }
+    public int getLevel(){return level;}
+    public int getHealth(){
+        System.out.println(hearts);
+        return hearts;}
+    public int getSpeed(){ return speed;}
 }
