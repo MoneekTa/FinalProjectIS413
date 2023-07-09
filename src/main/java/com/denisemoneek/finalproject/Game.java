@@ -63,7 +63,7 @@ public class Game extends Application {
             if (!timerRun) {
                 timer.start();
                 pauseButton.setText("Game is Running");
-                Timeline recordingTimeline = new Timeline(new KeyFrame(Duration.millis(1), event2 -> {
+                Timeline recordingTimeline = new Timeline(new KeyFrame(Duration.millis(100), event2 -> {
                     bulletYposition = bullet.recordingY();
                     bulletXposition = bullet.recordingX();
                     invaderStartPosition = invader.getXposition();
@@ -74,8 +74,8 @@ public class Game extends Application {
 
                     //System.out.println("invaderYposition: " + (invader.getYposition() + invader.getheight()));
                     if(bulletXposition > invaderStartPosition &
-                            bulletXposition < invaderEndPosition &
-                            bulletYposition == (invader.getYposition()- invader.getheight()+(bullet.getdiamater()/2))){
+                            bulletXposition <= invaderEndPosition &
+                            bulletYposition <= (invader.getYposition()- invader.getheight())){
                         System.out.println("target hit");
                         invaderHealth = invaderHealth - 1;
                         HealthDisplay.setText("Health: "+ invaderHealth);
@@ -84,7 +84,7 @@ public class Game extends Application {
                         }
 
                     }
-                    if(bulletYposition == invader.getYposition()+ invader.getheight()){
+                    if(bulletYposition == 0){
                         bullet.setXposition(player.getXposition());
                         bullet.setYPosition(player.getYposition());
                     }

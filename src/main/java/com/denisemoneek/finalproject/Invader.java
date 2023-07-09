@@ -9,7 +9,7 @@ import javafx.util.Duration;
 
 import java.util.Random;
 public class Invader implements Levels {
-    private static int width = 50;
+    private static int width = 500;
     private static int height = 50;
     private Pane pane;
     private Rectangle invaderSquare;
