@@ -101,7 +101,6 @@ public class Game extends Application {
             timerRun = !timerRun;
         });
 
-
         primaryStage.setScene(scene);
         primaryStage.setTitle("JFX Invaders");
         primaryStage.show();
