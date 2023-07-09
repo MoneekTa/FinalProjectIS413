@@ -71,11 +71,11 @@ public class Game extends Application {
                     invaderEndPosition = invader.getwidth() + invader.getXposition();
                     //System.out.println("invaderEndPosition: " + invaderEndPosition);
                     //System.out.println("Bullet X Position: " + bulletXposition);
-
+                    //System.out.println("Bullet Y Position: " + bulletYposition);
                     //System.out.println("invaderYposition: " + (invader.getYposition() + invader.getheight()));
                     if(bulletXposition > invaderStartPosition &
-                            bulletXposition <= invaderEndPosition &
-                            bulletYposition <= (invader.getYposition()- invader.getheight())){
+                            bulletXposition < invaderEndPosition)
+                        if(bulletYposition == (invader.getYposition())){
                         System.out.println("target hit");
                         invaderHealth = invaderHealth - 1;
                         HealthDisplay.setText("Health: "+ invaderHealth);
