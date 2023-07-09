@@ -3,9 +3,14 @@ package com.denisemoneek.finalproject;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -16,7 +21,6 @@ public class Game extends Application {
     private Player player;
     private Pane gamePane;
     private Bullet bullet;
-    Layout layout = new Layout();
     Button pauseButton = new Button("Start Game");
     long elapsedTime;
     long bulletYposition;
@@ -30,68 +34,32 @@ public class Game extends Application {
     private int currentLevel = 1;
     Text HealthDisplay;
     Text LevelDisplay;
+    Layout layout = new Layout();
 
     @Override
     public void start(Stage primaryStage) {
+
         gamePane = new Pane(pauseButton);
-
-        Scene scene = new Scene(gamePane, 800, 600);
-
+        //gamePane.setBackground();
+        BackgroundFill backgroundFill = new BackgroundFill(layout.Color(), CornerRadii.EMPTY, Insets.EMPTY);
+        Background background = new Background(backgroundFill);
+        gamePane.setBackground(background);
+        Scene scene = new Scene(gamePane, 800, 600,layout.Color());
         scene.setOnKeyPressed(event -> handleKeyPress(event.getCode()));
-
         timer.start();
         pauseButton.setOnAction(event -> {
             // Use this print code to debug
             System.out.println("Game Started");
-            scene.setFill(layout.Color());
             player = new Player(gamePane);
+            bullet = new Bullet(gamePane);
             invader = new Invader(gamePane);
             invader.setLevel(currentLevel);
             invader.setSpeed(currentLevel);
             invaderHealth = invader.getHealth();
-
-            bullet = new Bullet(gamePane);
-            Button nextLevelBtn = new Button("Next Level");
-            nextLevelBtn.setOnAction(e -> goToNextLevel());
-            bullet.setXposition(player.getXposition());
-            bullet.setYPosition(player.getYposition());
-
-            gamePane.getChildren().add(nextLevelBtn);
-            nextLevelBtn.setLayoutX(725);
             setUpText();
             // If the timerRun is false, meaning the timer is not running
             if (!timerRun) {
-                timer.start();
-                pauseButton.setText("Game is Running");
-                Timeline recordingTimeline = new Timeline(new KeyFrame(Duration.millis(100), event2 -> {
-                    bulletYposition = bullet.recordingY();
-                    bulletXposition = bullet.recordingX();
-                    invaderStartPosition = invader.getXposition();
-                    //System.out.println("invaderStartPosition: " + invaderStartPosition);
-                    invaderEndPosition = invader.getwidth() + invader.getXposition();
-                    //System.out.println("invaderEndPosition: " + invaderEndPosition);
-                    //System.out.println("Bullet X Position: " + bulletXposition);
-                    //System.out.println("Bullet Y Position: " + bulletYposition);
-                    //System.out.println("invaderYposition: " + (invader.getYposition() + invader.getheight()));
-                    if(bulletXposition > invaderStartPosition &
-                            bulletXposition < invaderEndPosition)
-                        if(bulletYposition == (invader.getYposition())){
-                        System.out.println("target hit");
-                        invaderHealth = invaderHealth - 1;
-                        HealthDisplay.setText("Health: "+ invaderHealth);
-                        if(invaderHealth == 0){
-                            goToNextLevel();
-                        }
-
-                    }
-                    if(bulletYposition == 0){
-                        bullet.setXposition(player.getXposition());
-                        bullet.setYPosition(player.getYposition());
-                    }
-
-                }));
-                recordingTimeline.setCycleCount(Timeline.INDEFINITE);
-                recordingTimeline.play();
+                playGame();
             } else {
                 elapsedTime += timer.stop();
                 pauseButton.setText("Game is Paused " +
@@ -100,7 +68,6 @@ public class Game extends Application {
             // Resets timerRun
             timerRun = !timerRun;
         });
-
 
         primaryStage.setScene(scene);
         primaryStage.setTitle("JFX Invaders");
@@ -141,10 +108,18 @@ public class Game extends Application {
         invaderHealth = invader.getHealth();
         HealthDisplay.setText("Health: "+ invaderHealth);
         LevelDisplay.setText("Level: " + currentLevel);
+
+
     }
 
     public void setUpText(){
+        Button nextLevelBtn = new Button("Next Level");
+        nextLevelBtn.setOnAction(e -> goToNextLevel());
+        bullet.setXposition(player.getXposition());
+        bullet.setYPosition(player.getYposition());
 
+        gamePane.getChildren().add(nextLevelBtn);
+        nextLevelBtn.setLayoutX(725);
         HealthDisplay = new Text("Health: " + invaderHealth);
         LevelDisplay = new Text("Level: " + currentLevel);
         gamePane.getChildren().addAll(HealthDisplay, LevelDisplay);
@@ -154,6 +129,40 @@ public class Game extends Application {
         LevelDisplay.setLayoutY(gamePane.getHeight()-10);
         LevelDisplay.setLayoutX(gamePane.getWidth()-100);
         LevelDisplay.setFont(Font.font(25));
+
+    }
+    public void playGame(){
+        timer.start();
+        pauseButton.setText("Game is Running");
+        Timeline recordingTimeline = new Timeline(new KeyFrame(Duration.millis(100), event2 -> {
+            bulletYposition = bullet.recordingY();
+            bulletXposition = bullet.recordingX();
+            invaderStartPosition = invader.getXposition();
+            invaderEndPosition = invader.getwidth() + invader.getXposition();
+            //System.out.println("invaderStartPosition: " + invaderStartPosition);
+            //System.out.println("invaderEndPosition: " + invaderEndPosition);
+            //System.out.println("Bullet X Position: " + bulletXposition);
+            //System.out.println("Bullet Y Position: " + bulletYposition);
+            //System.out.println("invaderYposition: " + (invader.getYposition() + invader.getheight()));
+            if(bulletXposition > invaderStartPosition - 10 &
+                    bulletXposition < invaderEndPosition + 10)
+                if(bulletYposition == (invader.getYposition())){
+                    System.out.println("target hit");
+                    invaderHealth = invaderHealth - 1;
+                    HealthDisplay.setText("Health: "+ invaderHealth);
+                    if(invaderHealth == 0){
+                        goToNextLevel();
+                    }
+                }
+
+            if(bulletYposition == 0){
+                bullet.setXposition(player.getXposition());
+                bullet.setYPosition(player.getYposition());
+            }
+
+        }));
+        recordingTimeline.setCycleCount(Timeline.INDEFINITE);
+        recordingTimeline.play();
 
     }
     public static void main(String[] args) {
