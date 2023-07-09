@@ -40,7 +40,7 @@ public class Bullet {
                 new TranslateTransition(Duration.seconds(speed), bullet);
         double startY = 500;
         System.out.println("startY: " + startY);
-        double endY = 0;
+        double endY = 50;
 
 //            if (moving){
 //                startY = 550;
@@ -88,5 +88,8 @@ public class Bullet {
         //System.out.println("Recorded Position: " + recordedPosition);
         return recordedPosition;
 
+    }
+    public long getdiamater(){
+        return diameter;
     }
 }

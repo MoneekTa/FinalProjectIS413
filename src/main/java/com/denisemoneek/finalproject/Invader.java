@@ -93,8 +93,8 @@ public class Invader implements Levels {
                 invaderSquare.setFill(Color.MAROON);
                 break;
             default:
-                hearts = 1;
-                speed = 3;
+                hearts = random.nextInt(50);
+                speed = random.nextInt(50);
                 invaderSquare.setFill(Color.DARKCYAN);
                 break;
         }
@@ -125,7 +125,6 @@ public class Invader implements Levels {
     public long getheight(){return (long) height; }
     public int getLevel(){return level;}
     public int getHealth(){
-        System.out.println(hearts);
         return hearts;}
     public int getSpeed(){ return speed;}
 }

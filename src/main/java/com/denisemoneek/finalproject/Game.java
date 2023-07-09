@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.input.KeyCode;
@@ -47,8 +48,8 @@ public class Game extends Application {
             invader = new Invader(gamePane);
             invader.setLevel(currentLevel);
             invader.setSpeed(currentLevel);
-            System.out.println(invader.getSpeed());
             invaderHealth = invader.getHealth();
+
             bullet = new Bullet(gamePane);
             Button nextLevelBtn = new Button("Next Level");
             nextLevelBtn.setOnAction(e -> goToNextLevel());
@@ -57,6 +58,7 @@ public class Game extends Application {
 
             gamePane.getChildren().add(nextLevelBtn);
             nextLevelBtn.setLayoutX(725);
+            setUpText();
             // If the timerRun is false, meaning the timer is not running
             if (!timerRun) {
                 timer.start();
@@ -69,24 +71,20 @@ public class Game extends Application {
                     invaderEndPosition = invader.getwidth() + invader.getXposition();
                     //System.out.println("invaderEndPosition: " + invaderEndPosition);
                     //System.out.println("Bullet X Position: " + bulletXposition);
-//                    HealthDisplay.setText("Health: " + invaderHealth);
-//                    gamePane.getChildren().add(HealthDisplay);
-//                    HealthDisplay.setLayoutY(gamePane.getLayoutY());
-//                    HealthDisplay.setLayoutX(0);
-//
-                    //System.out.println("HealthDisplay: "+ HealthDisplay);
-                    LevelDisplay.setText("Level: " + currentLevel);
-                    gamePane.getChildren().add(LevelDisplay);
-                    LevelDisplay.setLayoutY(gamePane.getLayoutY());
-                    LevelDisplay.setLayoutX(gamePane.getLayoutX());
-                    System.out.println("Level: "+currentLevel);
+
+                    //System.out.println("invaderYposition: " + (invader.getYposition() + invader.getheight()));
                     if(bulletXposition > invaderStartPosition &
                             bulletXposition < invaderEndPosition &
-                            bulletYposition == invader.getYposition() ){
+                            bulletYposition == (invader.getYposition()- invader.getheight()+(bullet.getdiamater()/2))){
                         System.out.println("target hit");
+                        invaderHealth = invaderHealth - 1;
+                        HealthDisplay.setText("Health: "+ invaderHealth);
+                        if(invaderHealth == 0){
+                            goToNextLevel();
+                        }
 
                     }
-                    if(bulletYposition == invader.getYposition()){
+                    if(bulletYposition == invader.getYposition()+ invader.getheight()){
                         bullet.setXposition(player.getXposition());
                         bullet.setYPosition(player.getYposition());
                     }
@@ -141,9 +139,23 @@ public class Game extends Application {
         currentLevel = invader.getLevel();
         invader.setSpeed(currentLevel); // Update speed based on level
         invaderHealth = invader.getHealth();
-
+        HealthDisplay.setText("Health: "+ invaderHealth);
+        LevelDisplay.setText("Level: " + currentLevel);
     }
 
+    public void setUpText(){
+
+        HealthDisplay = new Text("Health: " + invaderHealth);
+        LevelDisplay = new Text("Level: " + currentLevel);
+        gamePane.getChildren().addAll(HealthDisplay, LevelDisplay);
+        HealthDisplay.setLayoutX(0);
+        HealthDisplay.setLayoutY(gamePane.getHeight()-10);
+        HealthDisplay.setFont(Font.font(25));
+        LevelDisplay.setLayoutY(gamePane.getHeight()-10);
+        LevelDisplay.setLayoutX(gamePane.getWidth()-100);
+        LevelDisplay.setFont(Font.font(25));
+
+    }
     public static void main(String[] args) {
         launch();
     }
