@@ -182,30 +182,30 @@ public class Game extends Application {
     private void handleKeyPress(KeyCode key) {
         // Handles key press events
         if (!timerRun) {
-            return; // Ignore key presses when the game is paused or over
+            switch (key) {
+                case A:
+                    player.moveLeft();
+                    if (bulletY == 502) {
+                        bullet.setXposition(player.getXposition());
+                    }
+                    break;
+                case D:
+                    player.moveRight(800);
+                    if (bulletY == 502) {
+                        bullet.setXposition(player.getXposition());
+                    }
+                    break;
+                case M:
+                    bullet.moveBullet();
+                    break;
+                default:
+                    // Ignore other keys
+                    break;
+            }
         }
 
         // move with the A and D key and shoot with the M key
-        switch (key) {
-            case A:
-                player.moveLeft();
-                if (bulletY == 502) {
-                    bullet.setXposition(player.getXposition());
-                }
-                break;
-            case D:
-                player.moveRight(800);
-                if (bulletY == 502) {
-                    bullet.setXposition(player.getXposition());
-                }
-                break;
-            case M:
-                bullet.moveBullet();
-                break;
-            default:
-                // Ignore other keys
-                break;
-        }
+
     }
 
     // Set up the health and level display texts
