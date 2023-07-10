@@ -182,6 +182,7 @@ public class Game extends Application {
     private void handleKeyPress(KeyCode key) {
         // Handles key press events
         if (!timerRun) {
+            // move with the A and D key and shoot with the M key
             switch (key) {
                 case A:
                     player.moveLeft();
@@ -203,9 +204,6 @@ public class Game extends Application {
                     break;
             }
         }
-
-        // move with the A and D key and shoot with the M key
-
     }
 
     // Set up the health and level display texts
