@@ -141,7 +141,7 @@ public class Game extends Application {
                 "\n" + "Elasped Time: " + elapsedTime / 1000 + " seconds");
         gameOverText.setFont(Font.font(50));
         gameOverText.setFill(Color.DARKBLUE);
-        gameOverText.setX(250);
+        gameOverText.setX(200);
         gameOverText.setY(300);
         gamePane.getChildren().add(gameOverText);
     }
@@ -169,8 +169,8 @@ public class Game extends Application {
         timer.start();
         pauseButton.setText("Game is Running");
         Timeline recordingTimeline = new Timeline(new KeyFrame(Duration.millis(100), event2 -> {
-            bulletYposition = bullet.recordingY();
-            bulletXposition = bullet.recordingX();
+            bulletYposition = bullet.recordY();
+            bulletXposition = bullet.recordX();
             invaderStartPosition = invader.getXposition();
             invaderEndPosition = invader.getwidth() + invader.getXposition();
             //System.out.println("invaderStartPosition: " + invaderStartPosition);
