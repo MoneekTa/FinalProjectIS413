@@ -93,9 +93,6 @@ public class Invader implements Levels {
                 invaderSquare.setFill(Color.MAROON);
                 break;
             default:
-                hearts = random.nextInt(50);
-                speed = random.nextInt(50);
-                invaderSquare.setFill(Color.DARKCYAN);
                 break;
         }
     }
@@ -112,7 +109,7 @@ public class Invader implements Levels {
                 speed = 1;
                 break;
             default:
-                speed = 3;
+                speed = 1;
                 break;
         }
     }

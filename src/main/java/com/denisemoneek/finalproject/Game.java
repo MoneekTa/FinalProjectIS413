@@ -35,6 +35,7 @@ public class Game extends Application {
     Text HealthDisplay;
     Text LevelDisplay;
     Layout layout = new Layout();
+    boolean gameOver = false;
 
     @Override
     public void start(Stage primaryStage) {
@@ -47,6 +48,26 @@ public class Game extends Application {
         Scene scene = new Scene(gamePane, 800, 600,layout.Color());
         scene.setOnKeyPressed(event -> handleKeyPress(event.getCode()));
         timer.start();
+        if(gameOver){
+            resetsGame();
+        }else{
+            gameSetUp();
+        }
+
+
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("JFX Invaders");
+        primaryStage.show();
+    }
+    private void resetsGame(){
+        gameOver = false;
+        currentLevel = 1;
+        elapsedTime = 0;
+        timerRun = false;
+        pauseButton.setText("Start Game");
+        gameSetUp();
+    }
+    private void gameSetUp(){
         pauseButton.setOnAction(event -> {
             // Use this print code to debug
             System.out.println("Game Started");
@@ -69,9 +90,6 @@ public class Game extends Application {
             timerRun = !timerRun;
         });
 
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("JFX Invaders");
-        primaryStage.show();
     }
 
 // using A and D keys on the keyboard to move player
@@ -102,6 +120,13 @@ public class Game extends Application {
     }
     private void goToNextLevel() {
         currentLevel++;
+        if (currentLevel > 3) {
+            gameOver = true;
+            pauseButton.setText("Game Over " + "\n" +
+                    "Press to Start Over");
+            timerRun =!timerRun;
+            displayGameOver();
+        }
         invader.setLevel(currentLevel);
         currentLevel = invader.getLevel();
         invader.setSpeed(currentLevel); // Update speed based on level
@@ -110,6 +135,15 @@ public class Game extends Application {
         LevelDisplay.setText("Level: " + currentLevel);
 
 
+    }
+    private void displayGameOver() {
+        Text gameOverText = new Text("Game Over"+
+                "\n" + "Elasped Time: " + elapsedTime / 1000 + " seconds");
+        gameOverText.setFont(Font.font(50));
+        gameOverText.setFill(Color.DARKBLUE);
+        gameOverText.setX(250);
+        gameOverText.setY(300);
+        gamePane.getChildren().add(gameOverText);
     }
 
     public void setUpText(){
