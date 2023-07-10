@@ -51,15 +51,18 @@ public class Player implements PlayerAesthetic {
         }
     }
 
+    // used to display the shape of the player
     @Override
     public Shape createPlayerShape() {
         return playerAesthetic.createPlayerShape();
     }
 
+    // gets the x position of the player
     public double getXposition() {
         return playerShape.getLayoutX();
     }
 
+    // gets the y position of the player
     public double getYposition() {
         return playerShape.getLayoutY();
     }

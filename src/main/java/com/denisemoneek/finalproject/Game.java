@@ -1,19 +1,21 @@
 package com.denisemoneek.finalproject;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.stage.Stage;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
+import javafx.scene.control.Button;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import javafx.scene.input.KeyCode;
+
 import javafx.util.Duration;
 
 public class Game extends Application {
@@ -23,8 +25,8 @@ public class Game extends Application {
     private Layout layout = new Layout();
     private Button pauseButton = new Button("Start Game");
     private long elapsedTime;
-    private long bulletYposition;
-    private long bulletXposition;
+    private long bulletY;
+    private long bulletX;
     private long invaderStartPosition;
     private long invaderEndPosition;
     private int invaderHealth;
@@ -38,10 +40,12 @@ public class Game extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+    // setting up the layout
         gamePane = new Pane(pauseButton);
 
         Scene scene = new Scene(gamePane, 800, 600);
-        BackgroundFill backgroundFill = new BackgroundFill(layout.Color(), CornerRadii.EMPTY, Insets.EMPTY);
+        BackgroundFill backgroundFill =
+                new BackgroundFill(layout.Color(), CornerRadii.EMPTY, Insets.EMPTY);
         Background background = new Background(backgroundFill);
         gamePane.setBackground(background);
         scene.setOnKeyPressed(event -> handleKeyPress(event.getCode()));
@@ -60,6 +64,7 @@ public class Game extends Application {
         primaryStage.show();
     }
 
+    // start game method
     private void startGame() {
         // Use this print code to debug
         System.out.println("Game Started");
@@ -67,6 +72,7 @@ public class Game extends Application {
         gamePane.getChildren().clear(); // Clear the game pane
         gamePane.getChildren().add(pauseButton); // Add the pause button back
 
+        // Create player, invader, and bullet
         player = new Player(gamePane);
         invader = new Invader(gamePane);
         invader.setLevel(currentLevel);
@@ -83,17 +89,31 @@ public class Game extends Application {
         nextLevelBtn.setLayoutX(725);
         setUpText();
 
+        // If the timerRun is false, meaning the timer is not running
+        if (!timerRun) {
+            playGame();
+        } else {
+            elapsedTime += timer.stop();
+            pauseButton.setText("Game is Paused " +
+                    "\n" + "Time: " + elapsedTime / 1000 + " seconds");
+        }
+        // Resets timerRun
+        timerRun = !timerRun;
+
+        // start recording and playing the timeline animation
         timerRun = !timerRun;
         pauseButton.setText("Game is Running");
 
         Timeline recordingTimeline = new Timeline(new KeyFrame(Duration.millis(100), event2 -> {
-            bulletYposition = bullet.recordingY();
-            bulletXposition = bullet.recordingX();
+            bulletY = bullet.recordY();
+            bulletX = bullet.recordX();
             invaderStartPosition = invader.getXposition();
             invaderEndPosition = invader.getwidth() + invader.getXposition();
 
-            if (bulletXposition > invaderStartPosition && bulletXposition < invaderEndPosition) {
-                if (bulletYposition == invader.getYposition()) {
+            // check when bullet hits invader
+            if (bulletX > invaderStartPosition && bulletX < invaderEndPosition) {
+                if (bulletY == invader.getYposition()) {
+                    //  displays in the terminal if the bullet hits the invader
                     System.out.println("target hit");
                     invaderHealth = invaderHealth - 1;
                     healthDisplay.setText("Health: " + invaderHealth);
@@ -103,7 +123,8 @@ public class Game extends Application {
                 }
             }
 
-            if (bulletYposition == 0) {
+            // reset bullet position when it reaches the top
+            if (bulletY == 0) {
                 bullet.setXposition(player.getXposition());
                 bullet.setYPosition(player.getYposition());
             }
@@ -113,25 +134,33 @@ public class Game extends Application {
         recordingTimeline.play();
     }
 
+    //game restarts
     private void restartGame() {
+        // restarts the game
         gameOver = false;
         currentLevel = 1;
         elapsedTime = 0;
         timerRun = false;
         pauseButton.setText("Start Game");
-        gamePane.getChildren().clear(); // Clear the game pane
+
+        // clear the game pane and start the game again
+        gamePane.getChildren().clear();
         startGame();
     }
 
     private void goToNextLevel() {
+        // increment the level
         currentLevel++;
         if (currentLevel > 3) {
+            // If the current level exceeds 3, it's game over
             gameOver = true;
             pauseButton.setText("Game Over");
             gamePane.getChildren().clear();
             displayGameOver();
             return;
         }
+
+        // update the invader properties for the next level
         invader.setLevel(currentLevel);
         currentLevel = invader.getLevel();
         invader.setSpeed(currentLevel); // Update speed based on level
@@ -141,6 +170,7 @@ public class Game extends Application {
     }
 
     private void displayGameOver() {
+        // show the game over message
         Text gameOverText = new Text("Game Over");
         gameOverText.setFont(Font.font(50));
         gameOverText.setFill(Color.DARKBLUE);
@@ -150,20 +180,22 @@ public class Game extends Application {
     }
 
     private void handleKeyPress(KeyCode key) {
+        // Handles key press events
         if (!timerRun) {
             return; // Ignore key presses when the game is paused or over
         }
 
+        // move with the A and D key and shoot with the M key
         switch (key) {
             case A:
                 player.moveLeft();
-                if (bulletYposition == 502) {
+                if (bulletY == 502) {
                     bullet.setXposition(player.getXposition());
                 }
                 break;
             case D:
                 player.moveRight(800);
-                if (bulletYposition == 502) {
+                if (bulletY == 502) {
                     bullet.setXposition(player.getXposition());
                 }
                 break;
@@ -176,7 +208,9 @@ public class Game extends Application {
         }
     }
 
+    // Set up the health and level display texts
     private void setUpText() {
+        //shows the health and level display texts
         healthDisplay = new Text("Health: " + invaderHealth);
         levelDisplay = new Text("Level: " + currentLevel);
         gamePane.getChildren().addAll(healthDisplay, levelDisplay);
@@ -188,6 +222,41 @@ public class Game extends Application {
         levelDisplay.setFont(Font.font(25));
     }
 
+    // when the player hits the start game button this is called to show the message and
+        // create an event when the bullet hits the invader, the health of the invader decreases
+        // based on the position of the bullet
+    public void playGame() {
+        timer.start();
+        pauseButton.setText("Game is Running");
+        Timeline recordingTimeline =
+                new Timeline(new KeyFrame(Duration.millis(100), event2 -> {
+            bulletY = bullet.recordY();
+            bulletX = bullet.recordX();
+            invaderStartPosition = invader.getXposition();
+            invaderEndPosition = invader.getwidth() + invader.getXposition();
+            if (bulletX > invaderStartPosition - 10 &
+                    bulletX < invaderEndPosition + 10)
+                if (bulletY == (invader.getYposition())) {
+                    System.out.println("target hit");
+                    invaderHealth = invaderHealth - 1;
+                    healthDisplay.setText("Health: " + invaderHealth);
+
+                    // when the invader's health = 0 the next level is shown
+                    if (invaderHealth == 0) {
+                        goToNextLevel();
+                    }
+                }
+
+            // reset bullet position when it reaches the top
+            if (bulletY == 0) {
+                bullet.setXposition(player.getXposition());
+                bullet.setYPosition(player.getYposition());
+            }
+
+        }));
+        recordingTimeline.setCycleCount(Timeline.INDEFINITE);
+        recordingTimeline.play();
+    }
     public static void main(String[] args) {
         launch();
     }

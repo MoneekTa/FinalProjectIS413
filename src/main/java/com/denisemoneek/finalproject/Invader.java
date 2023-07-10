@@ -1,6 +1,5 @@
 package com.denisemoneek.finalproject;
 
-
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -45,22 +44,24 @@ public class Invader implements Levels {
         double endX;
 
         if (moving) {
+            // if invader is moving to the left
             startX = 0;
             endX = pane.getWidth() - width;
         } else {
+            // if invader is moving to the right
             startX = pane.getWidth() - width;
             endX = 0;
         }
 
-        // Timeline animation for each movement
+        // timeline animation for each movement
         TranslateTransition translateTransition =
                 new TranslateTransition(Duration.seconds(speed), invaderSquare);
 
-        // Set the movement direction
+        // set the movement direction
         translateTransition.setFromX(startX);
         translateTransition.setToX(endX);
 
-        // When invader is finished moving, it will reverse
+        // when invader is finished moving, it will reverse
         translateTransition.setOnFinished(e -> {
             // Reverse the direction
             moving = !moving;
@@ -97,6 +98,7 @@ public class Invader implements Levels {
         }
     }
 
+    // speed of level is set
     public void setSpeed(int level) {
         switch (level) {
             case 1:
@@ -114,14 +116,27 @@ public class Invader implements Levels {
         }
     }
 
-    public long getYposition() {return (long) invaderSquare.getTranslateY(); }
+    // y position of the invader gets returned
+    public long getYposition() {
+        return (long) invaderSquare.getTranslateY();
+    }
+
+    // x position of the invader gets returned
     public long getXposition(){
         return (long) invaderSquare.getTranslateX();
     }
-    public long getwidth(){return (long) width; }
-    public long getheight(){return (long) height; }
-    public int getLevel(){return level;}
+
+    // get the width of the pane and return the width
+    public long getwidth(){
+        return (long) width;
+    }
+
+    //will be used to display the level the player is on
+    public int getLevel(){
+        return level;
+    }
+
+    // used to display the health of the invader
     public int getHealth(){
         return hearts;}
-    public int getSpeed(){ return speed;}
 }

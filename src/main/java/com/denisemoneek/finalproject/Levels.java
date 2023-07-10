@@ -1,10 +1,12 @@
 package com.denisemoneek.finalproject;
 
 public interface Levels {
+    // used to determine the level
     void setLevel(int level);
-    void moveInvader();
-    void setSpeed(int level);
 
-// display hearts on screen
-//    void heart()
+    //used to move the invader
+    void moveInvader();
+
+    // used to set the speed of the invader
+    void setSpeed(int level);
 }
