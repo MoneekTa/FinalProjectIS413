@@ -49,6 +49,7 @@ public class Game extends Application {
         scene.setOnKeyPressed(event -> handleKeyPress(event.getCode()));
         timer.start();
         if(gameOver){
+            timerRun =!timerRun;
             resetsGame();
         }else{
             gameSetUp();
@@ -119,12 +120,14 @@ public class Game extends Application {
         }
     }
     private void goToNextLevel() {
+        BackgroundFill backgroundFill = new BackgroundFill(layout.Color(), CornerRadii.EMPTY, Insets.EMPTY);
+        Background background = new Background(backgroundFill);
+        gamePane.setBackground(background);
         currentLevel++;
         if (currentLevel > 3) {
             gameOver = true;
             pauseButton.setText("Game Over " + "\n" +
                     "Press to Start Over");
-            timerRun =!timerRun;
             displayGameOver();
         }
         invader.setLevel(currentLevel);
@@ -173,11 +176,6 @@ public class Game extends Application {
             bulletXposition = bullet.recordX();
             invaderStartPosition = invader.getXposition();
             invaderEndPosition = invader.getwidth() + invader.getXposition();
-            //System.out.println("invaderStartPosition: " + invaderStartPosition);
-            //System.out.println("invaderEndPosition: " + invaderEndPosition);
-            //System.out.println("Bullet X Position: " + bulletXposition);
-            //System.out.println("Bullet Y Position: " + bulletYposition);
-            //System.out.println("invaderYposition: " + (invader.getYposition() + invader.getheight()));
             if(bulletXposition > invaderStartPosition - 10 &
                     bulletXposition < invaderEndPosition + 10)
                 if(bulletYposition == (invader.getYposition())){
@@ -186,6 +184,7 @@ public class Game extends Application {
                     HealthDisplay.setText("Health: "+ invaderHealth);
                     if(invaderHealth == 0){
                         goToNextLevel();
+
                     }
                 }
 

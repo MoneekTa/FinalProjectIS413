@@ -17,6 +17,8 @@ public class Invader implements Levels {
     int level;
     int speed;
     int hearts;
+    double startX;
+    double endX;
 
     public Invader(Pane gamePane) {
         this.pane = gamePane;
@@ -39,19 +41,42 @@ public class Invader implements Levels {
     }
 
     // Invader movement
+//    public void moveInvader() {
+//        double startX;
+//        double endX;
+//
+//        if (moving) {
+//            // if invader is moving to the left
+//            startX = 0;
+//            endX = pane.getWidth() - width;
+//        } else {
+//            // if invader is moving to the right
+//            startX = pane.getWidth() - width;
+//            endX = 0;
+//        }
+//
+//        // timeline animation for each movement
+//        TranslateTransition translateTransition =
+//                new TranslateTransition(Duration.seconds(speed), invaderSquare);
+//
+//        // set the movement direction
+//        translateTransition.setFromX(startX);
+//        translateTransition.setToX(endX);
+//
+//        // when invader is finished moving, it will reverse
+//        translateTransition.setOnFinished(e -> {
+//            // Reverse the direction
+//            moving = !moving;
+//            // Restart the movement animation
+//            moveInvader();
+//        });
+//
+//        // Start the movement animation
+//        translateTransition.play();
+//    }
     public void moveInvader() {
-        double startX;
-        double endX;
-
-        if (moving) {
-            // if invader is moving to the left
-            startX = 0;
-            endX = pane.getWidth() - width;
-        } else {
-            // if invader is moving to the right
-            startX = pane.getWidth() - width;
-            endX = 0;
-        }
+        startX = invaderSquare.getTranslateX();
+        endX = random.nextInt((int) pane.getWidth() - width);
 
         // timeline animation for each movement
         TranslateTransition translateTransition =
@@ -64,15 +89,18 @@ public class Invader implements Levels {
         // when invader is finished moving, it will reverse
         translateTransition.setOnFinished(e -> {
             // Reverse the direction
-            moving = !moving;
+            startX = invaderSquare.getTranslateX();
+            endX = random.nextInt((int) pane.getWidth() - width);
+            translateTransition.setFromX(startX);
+            translateTransition.setToX(endX);
+
             // Restart the movement animation
-            moveInvader();
+            translateTransition.play();
         });
 
         // Start the movement animation
         translateTransition.play();
     }
-
     public void setLevel(int level) {
         this.level = level;
 
@@ -102,16 +130,16 @@ public class Invader implements Levels {
     public void setSpeed(int level) {
         switch (level) {
             case 1:
-                speed = 3;
+                speed = 0;
                 break;
             case 2:
-                speed = 2;
+                speed = 0;
                 break;
             case 3:
-                speed = 3;
+                speed = 0;
                 break;
             default:
-                speed = 1;
+                speed = 0;
                 break;
         }
     }
