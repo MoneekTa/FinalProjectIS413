@@ -19,6 +19,7 @@ import javafx.scene.input.KeyCode;
 
 import javafx.util.Duration;
 
+
 public class Game extends Application {
     private Player player;
     private Pane gamePane;
@@ -169,11 +170,13 @@ public class Game extends Application {
         LevelDisplay.setLayoutY(gamePane.getHeight()-10);
         LevelDisplay.setLayoutX(gamePane.getWidth()-100);
         LevelDisplay.setFont(Font.font(25));
-
     }
+
     public void playGame(){
+
         timer.start();
         pauseButton.setText("Game is Running");
+
         Timeline recordingTimeline = new Timeline(new KeyFrame(Duration.millis(100), event2 -> {
             bulletYposition = bullet.recordY();
             bulletXposition = bullet.recordX();
