@@ -15,7 +15,7 @@ public class Explode{
     private double x;
     private double y;
     private Random random;
-    private Timeline explosionTimeline;
+    private Timeline explodeTimeline;
 
     public Explode(Pane pane, double x, double y) {
         this.pane = pane;
@@ -43,17 +43,17 @@ public class Explode{
             double cosX = speed * Math.cos(Math.toRadians(angle));
             double sinY = speed * Math.sin(Math.toRadians(angle));
 
-            KeyFrame keyFrame = new KeyFrame(Duration.millis(1000 / 60), event -> {
+            KeyFrame keyF = new KeyFrame(Duration.millis(1000 / 60), event -> {
                 particle.setTranslateX(particle.getTranslateX() + cosX);
                 particle.setTranslateY(particle.getTranslateY() + sinY);
             });
 
-            if (explosionTimeline == null) {
-                explosionTimeline = new Timeline(keyFrame);
-                explosionTimeline.setCycleCount(Timeline.INDEFINITE);
-                explosionTimeline.play();
+            if (explodeTimeline == null) {
+                explodeTimeline = new Timeline(keyF);
+                explodeTimeline.setCycleCount(Timeline.INDEFINITE);
+                explodeTimeline.play();
             } else {
-                explosionTimeline.getKeyFrames().add(keyFrame);
+                explodeTimeline.getKeyFrames().add(keyF);
             }
         }
     }

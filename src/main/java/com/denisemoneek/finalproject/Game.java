@@ -179,6 +179,7 @@ public class Game extends Application {
             bulletXposition = bullet.recordX();
             invaderStartPosition = invader.getXposition();
             invaderEndPosition = invader.getwidth() + invader.getXposition();
+
         // determine if the invader is in a line with the bullet and gets hit by it
             if(bulletXposition > invaderStartPosition - 10 &
                     bulletXposition < invaderEndPosition + 10)
