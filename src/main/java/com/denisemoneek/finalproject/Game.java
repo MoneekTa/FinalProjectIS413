@@ -1,10 +1,11 @@
 package com.denisemoneek.finalproject;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -15,6 +16,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.input.KeyCode;
+
 import javafx.util.Duration;
 
 public class Game extends Application {
@@ -53,7 +55,6 @@ public class Game extends Application {
         }else{
             gameSetUp();
         }
-
 
         primaryStage.setScene(scene);
         primaryStage.setTitle("JFX Invaders");
@@ -122,20 +123,25 @@ public class Game extends Application {
         currentLevel++;
         if (currentLevel > 3) {
             gameOver = true;
-            pauseButton.setText("Game Over " + "\n" +
-                    "Press to Start Over");
-            timerRun =!timerRun;
+            pauseButton.setText("Game Over\nElapsed Time: " + elapsedTime / 1000 + " seconds");
+            timerRun = !timerRun;
             displayGameOver();
+        } else {
+            invader.setLevel(currentLevel);
+            currentLevel = invader.getLevel();
+            invader.setSpeed(currentLevel);
+            invaderHealth = invader.getHealth();
+            HealthDisplay.setText("Health: " + invaderHealth);
+            LevelDisplay.setText("Level: " + currentLevel);
         }
-        invader.setLevel(currentLevel);
-        currentLevel = invader.getLevel();
-        invader.setSpeed(currentLevel); // Update speed based on level
-        invaderHealth = invader.getHealth();
-        HealthDisplay.setText("Health: "+ invaderHealth);
-        LevelDisplay.setText("Level: " + currentLevel);
-
-
     }
+
+
+    private void showExplosion(double x, double y) {
+        Explode explosion = new Explode(gamePane, x, y);
+        explosion.play();
+    }
+
     private void displayGameOver() {
         Text gameOverText = new Text("Game Over"+
                 "\n" + "Elasped Time: " + elapsedTime / 1000 + " seconds");
@@ -173,11 +179,7 @@ public class Game extends Application {
             bulletXposition = bullet.recordX();
             invaderStartPosition = invader.getXposition();
             invaderEndPosition = invader.getwidth() + invader.getXposition();
-            //System.out.println("invaderStartPosition: " + invaderStartPosition);
-            //System.out.println("invaderEndPosition: " + invaderEndPosition);
-            //System.out.println("Bullet X Position: " + bulletXposition);
-            //System.out.println("Bullet Y Position: " + bulletYposition);
-            //System.out.println("invaderYposition: " + (invader.getYposition() + invader.getheight()));
+
             if(bulletXposition > invaderStartPosition - 10 &
                     bulletXposition < invaderEndPosition + 10)
                 if(bulletYposition == (invader.getYposition())){
@@ -186,6 +188,8 @@ public class Game extends Application {
                     HealthDisplay.setText("Health: "+ invaderHealth);
                     if(invaderHealth == 0){
                         goToNextLevel();
+                    // when the player defeats an invader, the explosion animation shows
+                        showExplosion(invader.getXposition(), invader.getYposition());
                     }
                 }
 
