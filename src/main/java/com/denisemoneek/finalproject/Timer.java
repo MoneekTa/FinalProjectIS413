@@ -13,13 +13,7 @@ public class Timer {
     // Start the timer
     public void start() {
         starttime = System.currentTimeMillis(); // Get the current time in milliseconds
-        System.out.println(starttime / 1000); // Print the start time in seconds (optional)
 
-        // Create a timeline with a duration of 1 second
-        Timeline timeline =
-                new Timeline(new KeyFrame(Duration.millis(1000)));
-        timeline.setCycleCount(Animation.INDEFINITE); // Set the cycle count to indefinite
-        timeline.play(); // Start the timeline
     }
 
     // Stop the timer and calculate the elapsed time

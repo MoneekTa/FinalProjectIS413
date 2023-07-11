@@ -20,20 +20,26 @@ import javafx.util.Duration;
 public class Game extends Application {
     private Player player;
     private Pane gamePane;
-    private Bullet bullet;
+    private PlayerBullet playerBullet;
+    private InvaderBullet invaderBullet;
     Button pauseButton = new Button("Start Game");
     long elapsedTime;
-    long bulletYposition;
-    long bulletXposition;
+    long playerBulletYposition;
+    long playerBulletXposition;
+    long invaderBulletYposition;
+    long invaderBulletXposition;
     long invaderStartPosition;
     long invaderEndPosition;
+    long playerPosition;
     int invaderHealth;
+    int playerHealth;
     Timer timer = new Timer();
     boolean timerRun = false;
     private Invader invader;
     private int currentLevel = 1;
-    Text HealthDisplay;
-    Text LevelDisplay;
+    Text invaderHealthDisplay;
+    Text levelDisplay;
+    Text playerHealthDisplay;
     Layout layout = new Layout();
     boolean gameOver = false;
 
@@ -55,7 +61,6 @@ public class Game extends Application {
             gameSetUp();
         }
 
-
         primaryStage.setScene(scene);
         primaryStage.setTitle("JFX Invaders");
         primaryStage.show();
@@ -73,10 +78,13 @@ public class Game extends Application {
             // Use this print code to debug
             System.out.println("Game Started");
             player = new Player(gamePane);
-            bullet = new Bullet(gamePane);
+            playerBullet = new PlayerBullet(gamePane);
             invader = new Invader(gamePane);
+            invaderBullet = new InvaderBullet(gamePane);
             invader.setLevel(currentLevel);
             invader.setSpeed(currentLevel);
+            player.setLevel(currentLevel);
+            playerHealth = player.getHealth();
             invaderHealth = invader.getHealth();
             setUpText();
             // If the timerRun is false, meaning the timer is not running
@@ -99,18 +107,18 @@ public class Game extends Application {
             switch (key) {
                 case A:
                     player.moveLeft();
-                    if(bulletYposition == 502) {
-                        bullet.setXposition(player.getXposition());
+                    if(playerBulletYposition == 502) {
+                        playerBullet.setXposition(player.getXposition());
                     }
                     break;
                 case D:
                     player.moveRight(800);
-                    if(bulletYposition == 502) {
-                        bullet.setXposition(player.getXposition());
+                    if(playerBulletYposition == 502) {
+                        playerBullet.setXposition(player.getXposition());
                     }
                     break;
                 case M:
-                    bullet.moveBullet();
+                    playerBullet.moveBullet();
                     break;
                 default:
                     // Ignore other keys
@@ -134,12 +142,15 @@ public class Game extends Application {
         currentLevel = invader.getLevel();
         invader.setSpeed(currentLevel); // Update speed based on level
         invaderHealth = invader.getHealth();
-        HealthDisplay.setText("Health: "+ invaderHealth);
-        LevelDisplay.setText("Level: " + currentLevel);
+        playerHealth = player.getHealth();
+        invaderHealthDisplay.setText("Invader's Health: "+ invaderHealth);
+        playerHealthDisplay.setText("Player's Health: "+ playerHealth);
+        levelDisplay.setText("Level: " + currentLevel);
 
 
     }
     private void displayGameOver() {
+
         Text gameOverText = new Text("Game Over"+
                 "\n" + "Elasped Time: " + elapsedTime / 1000 + " seconds");
         gameOverText.setFont(Font.font(50));
@@ -152,45 +163,87 @@ public class Game extends Application {
     public void setUpText(){
         Button nextLevelBtn = new Button("Next Level");
         nextLevelBtn.setOnAction(e -> goToNextLevel());
-        bullet.setXposition(player.getXposition());
-        bullet.setYPosition(player.getYposition());
+        playerBullet.setXposition(player.getXposition());
+        playerBullet.setYPosition(player.getYposition());
+
+        invaderBullet.setXposition(invader.getXposition());
+        invaderBullet.setYPosition(invader.getYposition());
 
         gamePane.getChildren().add(nextLevelBtn);
         nextLevelBtn.setLayoutX(725);
-        HealthDisplay = new Text("Health: " + invaderHealth);
-        LevelDisplay = new Text("Level: " + currentLevel);
-        gamePane.getChildren().addAll(HealthDisplay, LevelDisplay);
-        HealthDisplay.setLayoutX(0);
-        HealthDisplay.setLayoutY(gamePane.getHeight()-10);
-        HealthDisplay.setFont(Font.font(25));
-        LevelDisplay.setLayoutY(gamePane.getHeight()-10);
-        LevelDisplay.setLayoutX(gamePane.getWidth()-100);
-        LevelDisplay.setFont(Font.font(25));
+        invaderHealthDisplay = new Text("Invader's Health: " + invaderHealth);
+        levelDisplay = new Text("Level: " + currentLevel);
+        playerHealthDisplay = new Text("Player's Health: " + playerHealth);
+        gamePane.getChildren().addAll(invaderHealthDisplay, levelDisplay, playerHealthDisplay);
+        invaderHealthDisplay.setLayoutX(0);
+        invaderHealthDisplay.setLayoutY(gamePane.getHeight()-10);
+        invaderHealthDisplay.setFont(Font.font(25));
 
+        playerHealthDisplay.setLayoutX(gamePane.getWidth()/2);
+        playerHealthDisplay.setLayoutY(gamePane.getHeight()-10);
+        playerHealthDisplay.setFont(Font.font(25));
+
+        levelDisplay.setLayoutX(gamePane.getWidth()-100);
+        levelDisplay.setLayoutY(gamePane.getHeight()-10);
+        levelDisplay.setFont(Font.font(25));
+
+    }
+    private void showExplosion(double x, double y) {
+        Explode explosion = new Explode(gamePane, x, y);
+        explosion.play();
     }
     public void playGame(){
         timer.start();
         pauseButton.setText("Game is Running");
         Timeline recordingTimeline = new Timeline(new KeyFrame(Duration.millis(100), event2 -> {
-            bulletYposition = bullet.recordY();
-            bulletXposition = bullet.recordX();
+            playerBulletYposition = playerBullet.recordY();
+            playerBulletXposition = playerBullet.recordX();
             invaderStartPosition = invader.getXposition();
             invaderEndPosition = invader.getwidth() + invader.getXposition();
-            if(bulletXposition > invaderStartPosition - 10 &
-                    bulletXposition < invaderEndPosition + 10)
-                if(bulletYposition == (invader.getYposition())){
+            invaderBulletYposition = invaderBullet.recordY();
+            invaderBulletXposition = invaderBullet.recordX();
+            playerPosition = (long) player.getXposition();
+
+            if(playerBulletXposition > invaderStartPosition - 10 &
+                    playerBulletXposition < invaderEndPosition + 10){
+                if(playerBulletYposition == (invader.getYposition())){
                     System.out.println("target hit");
                     invaderHealth = invaderHealth - 1;
-                    HealthDisplay.setText("Health: "+ invaderHealth);
+                    invaderHealthDisplay.setText("Invader's Health: "+ playerHealth);
                     if(invaderHealth == 0){
                         goToNextLevel();
+                        showExplosion(invader.getXposition(), invader.getYposition());
 
                     }
-                }
+                }}
+            System.out.println("playerXPosition: "+ playerPosition);
+            System.out.println("playerYPosition: "+ player.getYposition());
+            System.out.println("invaderBulletXposition: "+ invaderBulletXposition);
+            System.out.println("invaderBulletYposition: "+ invaderBulletYposition);
 
-            if(bulletYposition == 0){
-                bullet.setXposition(player.getXposition());
-                bullet.setYPosition(player.getYposition());
+            if(invaderBulletXposition > playerPosition - 10 &
+                    invaderBulletXposition < playerPosition + 10){
+                if(invaderBulletYposition < (player.getYposition())) {
+                    System.out.println("player hit");
+                    playerHealth = playerHealth- 1;
+                    playerHealthDisplay.setText("Player's Health: " + playerHealth);
+                    if (playerHealth == 0) {
+                        displayGameOver();
+                        gameOver = true;
+                        pauseButton.setText("Game Over " + "\n" +
+                                "Press to Start Over");
+                        displayGameOver();
+
+                    }
+                }}
+            if(invaderBulletYposition > player.getYposition()){
+                invaderBullet.setXposition(invader.getXposition());
+                invaderBullet.setYPosition(invader.getYposition());
+            }
+
+            if(playerBulletYposition == 0){
+                playerBullet.setXposition(player.getXposition());
+                playerBullet.setYPosition(player.getYposition());
             }
 
         }));

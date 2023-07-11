@@ -158,6 +158,10 @@ public class Invader implements Levels {
     public long getwidth(){
         return (long) width;
     }
+    public long getheight(){
+        return (long) height;
+    }
+
 
     //will be used to display the level the player is on
     public int getLevel(){
