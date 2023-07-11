@@ -179,13 +179,15 @@ public class Game extends Application {
             bulletXposition = bullet.recordX();
             invaderStartPosition = invader.getXposition();
             invaderEndPosition = invader.getwidth() + invader.getXposition();
-
+        // determine if the invader is in a line with the bullet and gets hit by it
             if(bulletXposition > invaderStartPosition - 10 &
                     bulletXposition < invaderEndPosition + 10)
                 if(bulletYposition == (invader.getYposition())){
+                    // message shows in the terminal if the player hits the invader
                     System.out.println("target hit");
                     invaderHealth = invaderHealth - 1;
                     HealthDisplay.setText("Health: "+ invaderHealth);
+                    // when the invader's health hits 0, go to the next level by calling the goToNextLevel() method
                     if(invaderHealth == 0){
                         goToNextLevel();
                     // when the player defeats an invader, the explosion animation shows
@@ -197,11 +199,9 @@ public class Game extends Application {
                 bullet.setXposition(player.getXposition());
                 bullet.setYPosition(player.getYposition());
             }
-
         }));
         recordingTimeline.setCycleCount(Timeline.INDEFINITE);
         recordingTimeline.play();
-
     }
     public static void main(String[] args) {
         launch();

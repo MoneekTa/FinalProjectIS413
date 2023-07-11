@@ -25,8 +25,10 @@ public class Explode{
     }
 
     public void play() {
-        int numParticles = 50;
-        double radius = 10;
+        // number of particles that disperse from explosion
+        int numParticles = 20;
+        // size of explosion particles
+        double radius = 5;
 
         for (int i = 0; i < numParticles; i++) {
             Circle particle = new Circle(radius);
@@ -37,13 +39,13 @@ public class Explode{
             particle.setTranslateY(y);
 
             double speed = random.nextDouble() * 5 + 1;
-            double angle = random.nextDouble() * 360;
-            double deltaX = speed * Math.cos(Math.toRadians(angle));
-            double deltaY = speed * Math.sin(Math.toRadians(angle));
+            double angle = random.nextDouble() * 180;
+            double cosX = speed * Math.cos(Math.toRadians(angle));
+            double sinY = speed * Math.sin(Math.toRadians(angle));
 
             KeyFrame keyFrame = new KeyFrame(Duration.millis(1000 / 60), event -> {
-                particle.setTranslateX(particle.getTranslateX() + deltaX);
-                particle.setTranslateY(particle.getTranslateY() + deltaY);
+                particle.setTranslateX(particle.getTranslateX() + cosX);
+                particle.setTranslateY(particle.getTranslateY() + sinY);
             });
 
             if (explosionTimeline == null) {
