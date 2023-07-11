@@ -54,6 +54,12 @@ public class Game extends Application {
         Scene scene = new Scene(gamePane, 800, 600,layout.Color());
         scene.setOnKeyPressed(event -> handleKeyPress(event.getCode()));
         timer.start();
+        Text Instructions = new Text("A: left D: right M: shoot");
+        Instructions.setFont(Font.font(50));
+        Instructions.setFill(Color.DARKBLUE);
+        Instructions.setX(150);
+        Instructions.setY(300);
+        gamePane.getChildren().add(Instructions);
         if(gameOver){
             timerRun =!timerRun;
             resetsGame();
@@ -70,6 +76,7 @@ public class Game extends Application {
         currentLevel = 1;
         elapsedTime = 0;
         timerRun = false;
+        Timer timer = new Timer();
         pauseButton.setText("Start Game");
         gameSetUp();
     }
@@ -236,7 +243,7 @@ public class Game extends Application {
 
                     }
                 }}
-            if(invaderBulletYposition > player.getYposition()){
+            if(invaderBulletYposition >= 590){
                 invaderBullet.setXposition(invader.getXposition());
                 invaderBullet.setYPosition(invader.getYposition());
             }
