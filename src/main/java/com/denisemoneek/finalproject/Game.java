@@ -76,6 +76,7 @@ public class Game extends Application {
         Instructions.setFill(Color.DARKBLUE);
         Instructions.setX(150);
         Instructions.setY(300);
+        gamePane.getChildren().addAll(Instructions);
     }
 
     private void resetsGame(){
