@@ -8,7 +8,6 @@ import java.io.FileNotFoundException;
 import java.util.Random;
 
 public class Layout implements LayoutChange{
-
     Random rand = new Random(); // Random number generator
 
     public Color Color() {
