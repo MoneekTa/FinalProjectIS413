@@ -73,12 +73,14 @@ public class Game extends Application {
         primaryStage.show();
     }
 
+    // set background color of game 
     private void backgroundfill() {
         BackgroundFill backgroundFill = new BackgroundFill(layout.Color(), CornerRadii.EMPTY, Insets.EMPTY);
         Background background = new Background(backgroundFill);
         gamePane.setBackground(background);
     }
 
+    // how to play display 
     private void displayinstructions() {
         Text instructions = new Text("A: left D: right M: shoot");
         instructions.setFont(Font.font(50));
@@ -88,6 +90,7 @@ public class Game extends Application {
         gamePane.getChildren().addAll(instructions);
     }
 
+    // reset
     private void resetsGame() {
         gameOver = false;
         currentLevel = 1;
@@ -97,6 +100,7 @@ public class Game extends Application {
         gameSetUp();
     }
 
+    // when the game is running
     private void gameSetUp() {
         pauseButton.setOnAction(event -> {
             // Use this print code to debug
@@ -190,7 +194,8 @@ public class Game extends Application {
         playerHealthDisplay.setText("Player's Health: " + playerHealth);
         levelDisplay.setText("Level: " + currentLevel);
     }
-
+    
+    //show game over when player or invader dies
     private void displayGameOver() {
         Text gameOverText = new Text("Game Over");
         gameOverText.setFont(Font.font(50));
@@ -200,6 +205,7 @@ public class Game extends Application {
         gamePane.getChildren().add(gameOverText);
     }
 
+    //show health, of player and invader, next level button
     public void setUpText() {
         Button nextLevelBtn = new Button("Next Level");
         nextLevelBtn.setOnAction(e -> goToNextLevel());
@@ -228,11 +234,13 @@ public class Game extends Application {
         levelDisplay.setFont(Font.font(25));
     }
 
+    // play exploison
     private void showExplosion(double x, double y) {
         Explode explosion = new Explode(gamePane, x, y);
         explosion.play();
     }
 
+    // when game is running
     public void playGame() {
         timer.start();
         pauseButton.setText("Game is Running");
