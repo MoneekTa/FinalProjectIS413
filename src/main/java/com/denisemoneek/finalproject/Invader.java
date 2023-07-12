@@ -41,39 +41,6 @@ public class Invader implements Levels {
     }
 
     // Invader movement
-//    public void moveInvader() {
-//        double startX;
-//        double endX;
-//
-//        if (moving) {
-//            // if invader is moving to the left
-//            startX = 0;
-//            endX = pane.getWidth() - width;
-//        } else {
-//            // if invader is moving to the right
-//            startX = pane.getWidth() - width;
-//            endX = 0;
-//        }
-//
-//        // timeline animation for each movement
-//        TranslateTransition translateTransition =
-//                new TranslateTransition(Duration.seconds(speed), invaderSquare);
-//
-//        // set the movement direction
-//        translateTransition.setFromX(startX);
-//        translateTransition.setToX(endX);
-//
-//        // when invader is finished moving, it will reverse
-//        translateTransition.setOnFinished(e -> {
-//            // Reverse the direction
-//            moving = !moving;
-//            // Restart the movement animation
-//            moveInvader();
-//        });
-//
-//        // Start the movement animation
-//        translateTransition.play();
-//    }
     public void moveInvader() {
         startX = invaderSquare.getTranslateX();
         endX = random.nextInt((int) pane.getWidth() - width);
