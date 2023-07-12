@@ -7,6 +7,7 @@ import javafx.animation.TranslateTransition;
 import javafx.util.Duration;
 
 import java.util.Random;
+
 public class Invader implements Levels {
     private static int width = 50;
     private static int height = 50;
@@ -18,6 +19,7 @@ public class Invader implements Levels {
     int speed;
     int hearts;
 
+    // call the invaders methods in this
     public Invader(Pane gamePane) {
         this.pane = gamePane;
         this.random = new Random();
