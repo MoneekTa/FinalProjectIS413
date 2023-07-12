@@ -24,6 +24,7 @@ public class Explode{
         this.random = new Random();
     }
 
+    // shows explosion animation
     public void play() {
         // number of particles that disperse from explosion
         int numParticles = 20;
@@ -38,11 +39,13 @@ public class Explode{
             particle.setTranslateX(x);
             particle.setTranslateY(y);
 
+            // speed and angle at which it explodes
             double speed = random.nextDouble() * 5 + 1;
             double angle = random.nextDouble() * 180;
             double cosX = speed * Math.cos(Math.toRadians(angle));
             double sinY = speed * Math.sin(Math.toRadians(angle));
 
+            //put the effects within the keyframe
             KeyFrame keyF = new KeyFrame(Duration.millis(1000 / 60), event -> {
                 particle.setTranslateX(particle.getTranslateX() + cosX);
                 particle.setTranslateY(particle.getTranslateY() + sinY);
