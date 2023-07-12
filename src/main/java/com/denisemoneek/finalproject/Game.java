@@ -47,25 +47,37 @@ public class Game extends Application {
     public void start(Stage primaryStage) {
 
         gamePane = new Pane(pauseButton);
-        //gamePane.setBackground();
-        BackgroundFill backgroundFill = new BackgroundFill(layout.Color(), CornerRadii.EMPTY, Insets.EMPTY);
-        Background background = new Background(backgroundFill);
-        gamePane.setBackground(background);
-        Scene scene = new Scene(gamePane, 800, 600,layout.Color());
+
+        backgroundfill();
+
+        Scene scene = new Scene(gamePane, 800, 600, layout.Color());
         scene.setOnKeyPressed(event -> handleKeyPress(event.getCode()));
-        Text Instructions = new Text("A: left D: right M: shoot");
-        Instructions.setFont(Font.font(50));
-        Instructions.setFill(Color.DARKBLUE);
-        Instructions.setX(150);
-        Instructions.setY(300);
-        gamePane.getChildren().add(Instructions);
+
+        displayinstructions();
+
         timer.start();
+
         gameSetUp();
+
         primaryStage.setScene(scene);
         primaryStage.setTitle("JFX Invaders");
         primaryStage.show();
 
     }
+    private void backgroundfill(){
+        BackgroundFill backgroundFill = new BackgroundFill(layout.Color(), CornerRadii.EMPTY, Insets.EMPTY);
+        Background background = new Background(backgroundFill);
+        gamePane.setBackground(background);
+
+    }
+    private void displayinstructions() {
+        Text Instructions = new Text("A: left D: right M: shoot");
+        Instructions.setFont(Font.font(50));
+        Instructions.setFill(Color.DARKBLUE);
+        Instructions.setX(150);
+        Instructions.setY(300);
+    }
+
     private void resetsGame(){
         gameOver = false;
         currentLevel = 1;
@@ -130,9 +142,8 @@ public class Game extends Application {
         }
     }
     private void goToNextLevel() {
-        BackgroundFill backgroundFill = new BackgroundFill(layout.Color(), CornerRadii.EMPTY, Insets.EMPTY);
-        Background background = new Background(backgroundFill);
-        gamePane.setBackground(background);
+        backgroundfill();
+
         currentLevel++;
         if (currentLevel > 3) {
             gameOver = true;
@@ -164,6 +175,7 @@ public class Game extends Application {
     }
 
     public void setUpText(){
+
         Button nextLevelBtn = new Button("Next Level");
         nextLevelBtn.setOnAction(e -> goToNextLevel());
         playerBullet.setXposition(player.getXposition());
