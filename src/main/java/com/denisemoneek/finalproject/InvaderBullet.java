@@ -21,7 +21,7 @@ public class InvaderBullet implements Bullet{
     private boolean gamePaused = false; // Added gamePaused variable
     private long recordedPosition;
 
-    //PlayerBullet object
+    //InvaderBullet object
     public InvaderBullet(Pane gamePane) {
         this.pane = gamePane;
         this.random = new Random();
@@ -32,7 +32,6 @@ public class InvaderBullet implements Bullet{
 
         // displaying bullet
         gamePane.getChildren().add(bullet);
-        // call the recordY function to get the axis
         moveBullet();
     }
 
@@ -71,13 +70,12 @@ public class InvaderBullet implements Bullet{
     }
 
     public void setXposition(double xPosition) {
-        // set the x-position of the bullet if it is at the top of the screen
+        // set the x-position of the bullet
             this.xPosition = xPosition;
             bullet.setTranslateX(xPosition + (diameter / 2) + 19);
         }
 
     // calculates and returns the recorded position of the bullet along the y-axis.
-    // adding the translation in the y-direction
     public long recordY() {
         // Calculates and returns the recorded position of the bullet along the y-axis
         recordedPosition = (long) (bullet.getTranslateY() + bullet.getCenterY());
