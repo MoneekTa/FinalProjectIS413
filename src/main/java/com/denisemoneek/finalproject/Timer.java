@@ -19,7 +19,6 @@ public class Timer {
     // Stop the timer and calculate the elapsed time
     public long stop() {
         endtime = System.currentTimeMillis(); // Get the current time in milliseconds
-        System.out.println(endtime / 1000); // Print the end time in seconds (optional)
         elaspedTime = endtime - starttime; // Calculate the elapsed time
         return elaspedTime; // Return the elapsed time
     }

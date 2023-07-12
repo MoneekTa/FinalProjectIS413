@@ -33,7 +33,6 @@ public class Player implements PlayerAesthetic {
     }
     public void setLevel(int level) {
         this.level = level;
-
         // Update invader properties based on the level
         switch (level) {
             case 1:

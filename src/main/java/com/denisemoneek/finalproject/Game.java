@@ -53,30 +53,24 @@ public class Game extends Application {
         gamePane.setBackground(background);
         Scene scene = new Scene(gamePane, 800, 600,layout.Color());
         scene.setOnKeyPressed(event -> handleKeyPress(event.getCode()));
-        timer.start();
         Text Instructions = new Text("A: left D: right M: shoot");
         Instructions.setFont(Font.font(50));
         Instructions.setFill(Color.DARKBLUE);
         Instructions.setX(150);
         Instructions.setY(300);
         gamePane.getChildren().add(Instructions);
-        if(gameOver){
-            timerRun =!timerRun;
-            resetsGame();
-        }else{
-            gameSetUp();
-        }
-
+        timer.start();
+        gameSetUp();
         primaryStage.setScene(scene);
         primaryStage.setTitle("JFX Invaders");
         primaryStage.show();
+
     }
     private void resetsGame(){
         gameOver = false;
         currentLevel = 1;
         elapsedTime = 0;
         timerRun = false;
-        Timer timer = new Timer();
         pauseButton.setText("Start Game");
         gameSetUp();
     }
@@ -88,6 +82,7 @@ public class Game extends Application {
             playerBullet = new PlayerBullet(gamePane);
             invader = new Invader(gamePane);
             invaderBullet = new InvaderBullet(gamePane);
+            System.out.println(currentLevel);
             invader.setLevel(currentLevel);
             invader.setSpeed(currentLevel);
             player.setLevel(currentLevel);
@@ -143,9 +138,11 @@ public class Game extends Application {
             gameOver = true;
             pauseButton.setText("Game Over " + "\n" +
                     "Press to Start Over");
+            resetsGame();
             displayGameOver();
         }
         invader.setLevel(currentLevel);
+        player.setLevel(currentLevel);
         currentLevel = invader.getLevel();
         invader.setSpeed(currentLevel); // Update speed based on level
         invaderHealth = invader.getHealth();
@@ -158,8 +155,7 @@ public class Game extends Application {
     }
     private void displayGameOver() {
 
-        Text gameOverText = new Text("Game Over"+
-                "\n" + "Elasped Time: " + elapsedTime / 1000 + " seconds");
+        Text gameOverText = new Text("Game Over");
         gameOverText.setFont(Font.font(50));
         gameOverText.setFill(Color.DARKBLUE);
         gameOverText.setX(200);
@@ -223,20 +219,18 @@ public class Game extends Application {
 
                     }
                 }}
-            System.out.println("playerXPosition: "+ playerPosition);
-            System.out.println("playerYPosition: "+ player.getYposition());
-            System.out.println("invaderBulletXposition: "+ invaderBulletXposition);
-            System.out.println("invaderBulletYposition: "+ invaderBulletYposition);
 
             if(invaderBulletXposition > playerPosition - 10 &
                     invaderBulletXposition < playerPosition + 10){
-                if(invaderBulletYposition < (player.getYposition())) {
+                if(invaderBulletYposition < (player.getYposition()) &
+                        playerHealth > 0) {
                     System.out.println("player hit");
                     playerHealth = playerHealth- 1;
                     playerHealthDisplay.setText("Player's Health: " + playerHealth);
                     if (playerHealth == 0) {
                         displayGameOver();
                         gameOver = true;
+                        showExplosion(player.getXposition(), player.getYposition());
                         pauseButton.setText("Game Over " + "\n" +
                                 "Press to Start Over");
                         displayGameOver();
