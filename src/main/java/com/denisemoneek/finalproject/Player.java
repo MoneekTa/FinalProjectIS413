@@ -1,14 +1,16 @@
 package com.denisemoneek.finalproject;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 public class Player implements PlayerAesthetic {
     private PlayerAesthetic playerAesthetic;
     private Shape playerShape;
     private Pane gamePane;
-    private Bullet bullet;
+    private PlayerBullet playerBullet;
     // speed of the player
     private int speed = 10;
-
+    int level;
+    int hearts;
     private boolean gamePaused = false; // Added gamePaused variable
 
     // By default, the player is a triangle
@@ -16,7 +18,7 @@ public class Player implements PlayerAesthetic {
         this.playerAesthetic = new TriangleSkin();
         this.playerShape = playerAesthetic.createPlayerShape();
         this.gamePane = gamePane;
-        this.bullet = new Bullet(gamePane);
+        this.playerBullet = new PlayerBullet(gamePane);
         updatePlayerShape();
     }
 
@@ -29,7 +31,23 @@ public class Player implements PlayerAesthetic {
         // Display the player shape
         gamePane.getChildren().add(playerShape);
     }
-
+    public void setLevel(int level) {
+        this.level = level;
+        // Update invader properties based on the level
+        switch (level) {
+            case 1:
+                hearts = 5;
+                break;
+            case 2:
+                hearts = 2;
+                break;
+            case 3:
+                hearts = 1;
+                break;
+            default:
+                break;
+        }
+    }
     // Allow player to move left only when the game is not paused
     public void moveLeft() {
         if (!gamePaused) {
@@ -66,4 +84,12 @@ public class Player implements PlayerAesthetic {
     public double getYposition() {
         return playerShape.getLayoutY();
     }
+    //will be used to display the level the player is on
+    public int getLevel(){
+        return level;
+    }
+
+    // used to display the health of the invader
+    public int getHealth(){
+        return hearts;}
 }
