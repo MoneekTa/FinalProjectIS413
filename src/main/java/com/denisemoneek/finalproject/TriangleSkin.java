@@ -5,7 +5,7 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Shape;
 
 public class TriangleSkin implements PlayerAesthetic{
-    // create the invader appearance as a triangle
+    // create the player appearance as a triangle
     public Shape createPlayerShape() {
         Polygon triangle = new Polygon();
         triangle.getPoints().addAll(
